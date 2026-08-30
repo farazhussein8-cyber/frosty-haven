@@ -1,0 +1,9 @@
+{
+  "name": "frosty-haven",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frosty Haven — static marketing site",
+  "scripts": {
+    "start": "node tools-serve.js"
+  }
+}

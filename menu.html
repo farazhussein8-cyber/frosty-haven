@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Menu — Frosty Haven</title>
+<meta name="description" content="The full Frosty Haven menu — loaded cups, flurrs, açaí bowls, thick shakes, lava cakes, croffles and frosty nachos. Everything halal, swirled fresh to order.">
+<meta name="theme-color" content="#F4DEDF">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="images/favicon.svg">
+
+<meta property="og:title" content="The Menu — Frosty Haven">
+<meta property="og:description" content="Loaded cups, flurrs, açaí bowls, thick shakes and treats. Everything halal, swirled fresh to order.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/ed-crave-1200.webp">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>[data-rv],.h-rv,.h-mask,.h-plate{opacity:1!important;transform:none!important;clip-path:none!important}</style></noscript>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="mark" href="index.html">Frosty<span>&nbsp;·&nbsp;</span>Haven</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="menu.html" class="is-on">Menu</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#visit">Visit</a>
+    </nav>
+    <div class="nav__right">
+      <a class="btn btn--fill" data-order href="index.html#visit">Order Now <i>&rarr;</i></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" aria-hidden="true">
+  <nav aria-label="Mobile">
+    <a class="mnav__l" style="--i:0" href="index.html">Home</a>
+    <a class="mnav__l" style="--i:1" href="menu.html">Menu</a>
+    <a class="mnav__l" style="--i:2" href="index.html#about">About</a>
+    <a class="mnav__l" style="--i:3" href="index.html#visit">Visit</a>
+  </nav>
+  <div class="mnav__foot">
+    <a class="btn btn--fill" data-order href="index.html#visit">Order Now <i>&rarr;</i></a>
+    <div class="socs" data-socs></div>
+  </div>
+</div>
+
+<main id="main">
+
+<section class="mhead">
+  <div class="wrap mhead__grid">
+    <div>
+      <p class="lab" style="margin-bottom:1.6rem">Frosty Haven — Full Menu</p>
+      <h1 class="dsp">The<br><em>menu.</em></h1>
+    </div>
+    <div>
+      <p class="lede">
+        Everything halal, every day. Nothing is built before you ask for it, so sizes,
+        sauces and toppings are all yours to move around. Prices are shown where they are
+        fixed — the rest depends on how far you take it.
+      </p>
+      <p style="margin-top:1.6rem"><span class="badge" data-badge hidden></span></p>
+    </div>
+  </div>
+</section>
+
+<div class="mjump">
+  <div class="mjump__in" id="mjump"></div>
+</div>
+
+<div id="mbody"></div>
+
+<section class="s-cream">
+  <div class="wrap mnote">
+    <div>
+      <p class="lab">A note</p>
+    </div>
+    <div>
+      <p class="lede">
+        The specials board moves faster than this page does. Croffles, nachos and whatever
+        landed this week are worth asking about at the counter — that is usually where the
+        good stuff is hiding.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem">
+        <a class="btn btn--fill" data-order href="index.html#visit">Order for Pickup <i>&rarr;</i></a>
+        <a class="btn btn--line" data-directions href="index.html#visit">Get Directions</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot on-dark" data-dark>
+  <div class="wrap">
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#visit">Contact</a>
+      <a data-social="instagram" href="index.html#visit">Instagram</a>
+      <a data-order href="index.html#visit">Order</a>
+      <span class="sp"></span>
+      <a data-review href="index.html#visit">Leave a review</a>
+    </nav>
+  </div>
+
+  <div class="foot__mark" aria-hidden="true">
+    <span data-rv="mask">Frosty</span>
+    <span data-rv="mask" style="--rvd:120ms">Haven</span>
+  </div>
+
+  <div class="wrap foot__bar">
+    <p>&copy; <span data-year></span> Frosty Haven — Palmerston North</p>
+    <div class="socs" data-socs></div>
+    <p>Swirled fresh, daily.</p>
+  </div>
+</footer>
+
+<div class="cur" id="cur" aria-hidden="true"><span>View</span></div>
+
+<script src="js/site.config.js"></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
