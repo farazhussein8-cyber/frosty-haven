@@ -959,13 +959,67 @@ body.ready .hero__obj--side img { animation: fl2 8.5s ease-in-out 1.6s infinite;
 
 /* tablet — the composition is width-driven here, so the photograph
    has to grow or it strands the wordmark in dead space */
-@media (min-width: 621px) and (max-width: 900px) {
+@media (min-width: 768px) and (max-width: 900px) {
   .hero__obj--main { width: 82%; right: -14%; }
   .hero__obj--side { width: 21%; left: -9%; }
   .hero__word--a { font-size: min(calc(var(--stage) * .38), 30svh); }
   .hero__word--b { font-size: min(calc(var(--stage) * .42), 33svh); left: 4%; }
   .hero__scroll { display: none; }
   .hero__foot { grid-template-columns: auto 1fr; }
+}
+
+/* ---- phone hero (below 768px) --------------------------------------
+   Composed for the phone, not compressed from the desktop: the line-up
+   sits centred between the two halves of the wordmark, and the wordmark
+   is inset so it keeps a real gutter on both sides at every width. */
+@media (max-width: 767px) {
+  .hero {
+    --stage: 96vw;
+    --fs-a: min(calc(var(--stage) * .365), 15.5svh);
+    --fs-b: min(calc(var(--stage) * .390), 16.5svh);
+    min-height: 100svh;
+    padding-top: clamp(4.8rem, 11vh, 6rem);
+    padding-bottom: clamp(1.5rem, 3.4vh, 2.4rem);
+  }
+  .hero__obj { display: none; }
+  /* Sized from the height the stage actually has, not from viewport
+     width, so a short phone shrinks the line-up instead of burying the
+     wordmark behind it. Centred by the flex box; the max-width keeps a
+     tall narrow screen from cropping the outer desserts away. */
+  /* The line-up fills whatever height is left under the first word, so a
+     short phone shrinks it instead of burying the wordmark behind it.
+     Driven by height rather than width because the img carries a sizes
+     attribute, which would otherwise dictate its rendered width. */
+  .hero__m {
+    display: flex; align-items: flex-end; justify-content: center;
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: calc(1% + var(--fs-a) * .66);
+    z-index: 2;
+  }
+  .hero__m img {
+    height: 100%; width: auto; max-width: none;
+    filter: drop-shadow(0 22px 30px rgba(88,42,52,.15));
+  }
+  body.ready .hero__m img { animation: fl2 9s ease-in-out 1.6s infinite; }
+
+  .hero__word--a { top: 1%;  left: 4%; font-size: var(--fs-a); }
+  .hero__word--b { bottom: 0; left: 4%; font-size: var(--fs-b); }
+
+  .hero__foot {
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+    padding-top: clamp(1.3rem, 3vh, 2rem);
+  }
+  .hero__say { max-width: 24ch; }
+  .hero__acts { justify-self: start; flex-wrap: wrap; gap: .8rem; }
+  .hero__scroll { display: none; }
+}
+
+/* the narrowest phones only: one line for the location, stacked full-width CTAs */
+@media (max-width: 359px) {
+  .hero__place { font-size: .625rem; letter-spacing: .14em; }
+  .hero__acts { width: 100%; gap: .55rem; }
+  .hero__acts .btn--fill { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 900px) {
@@ -1016,21 +1070,6 @@ body.ready .hero__obj--side img { animation: fl2 8.5s ease-in-out 1.6s infinite;
 
   .mark { --mark-h: 31px; }
   .nav.is-stuck .mark { --mark-h: 28px; }
-
-  .hero { --stage: 96vw; min-height: 100svh; }
-  .hero__obj { display: none; }
-  .hero__m { display: block; position: absolute; left: -28%; bottom: 0; width: 156%; z-index: 2; }
-  .hero__m img { width: 100%; height: auto; filter: drop-shadow(0 26px 34px rgba(88,42,52,.15)); }
-  body.ready .hero__m img { animation: fl2 9s ease-in-out 1.6s infinite; }
-
-  .hero__word--a { top: 2%; left: 0; font-size: min(calc(var(--stage) * .42), 17svh); }
-  .hero__word--b { bottom: -2%; left: 0; font-size: min(calc(var(--stage) * .44), 18svh); }
-  .hero__rail { display: none; }
-
-  .hero__foot { grid-template-columns: 1fr; gap: 1.3rem; }
-  .hero__say { max-width: 22ch; }
-  .hero__acts { justify-self: start; flex-wrap: wrap; gap: .9rem; }
-  .hero__scroll { display: none; }
 
   .intro__cap { position: static; display: block; padding-top: .9rem; text-align: right; }
 
