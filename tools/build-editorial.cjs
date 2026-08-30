@@ -148,6 +148,34 @@ async function emit(pipe, name, widths, q) {
     await emit(pipe.extract(box(m, crop[0], crop[1], crop[2], crop[3])), name, widths, 80);
   }
 
+  /* ============ LOGO — flat mark, used as a CSS mask =============
+     The supplied logo is glossy 3D pink on a soft drop shadow. Neither
+     survives at nav size, so this reduces it to a flat silhouette: the
+     shadow is grey and the mark is saturated, so the shadow is keyed out
+     on chroma rather than by thresholding alpha (which would eat the
+     antialiased edges and leave a pale halo). The result is served as a
+     mask so one file paints ink on the light surfaces and cream on the
+     dark ones, straight from currentColor. */
+  {
+    const smooth = (e0, e1, x) => { const v = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return v * v * (3 - 2 * v); };
+    const trimmed = await sharp(RAW + '/logo.png').trim({ threshold: 5 }).png().toBuffer();
+    const { data, info } = await sharp(trimmed).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const w = info.width, h = info.height, n = w * h;
+    const px = Buffer.alloc(n * 4);
+    for (let i = 0; i < n; i++) {
+      const r = data[i * 4], g = data[i * 4 + 1], b = data[i * 4 + 2], a = data[i * 4 + 3] / 255;
+      const chroma = (Math.max(r, g, b) - Math.min(r, g, b)) / 255;
+      const keep = smooth(0.09, 0.24, chroma);
+      px[i * 4] = 17; px[i * 4 + 1] = 17; px[i * 4 + 2] = 17;
+      px[i * 4 + 3] = Math.round(255 * smooth(0.16, 0.60, a * keep));
+    }
+    const flat = await sharp(px, { raw: { width: w, height: h, channels: 4 } })
+      .trim({ threshold: 2 }).png().toBuffer();
+    const fm = await sharp(flat).metadata();
+    await sharp(flat).resize({ width: 512 })
+      .png({ compressionLevel: 9, palette: true }).toFile(path.join(OUT, 'logo-mark.png'));
+    console.log('logo-mark'.padEnd(20), fm.width + 'x' + fm.height, 'ratio ' + (fm.width / fm.height).toFixed(3));
+  }
   /* ============ MENU TILES — 4:5 portrait ======================== */
   const TILES = [
     ['ed-t-loadedcup', 'ed-p-loadedcup-1200.webp'],

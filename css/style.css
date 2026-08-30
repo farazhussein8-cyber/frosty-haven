@@ -215,14 +215,38 @@ body.nav-dark .nav.is-stuck {
 }
 
 .mark {
-  font-family: var(--sans);
-  font-size: .8rem; font-weight: 600;
-  letter-spacing: .3em; text-transform: uppercase;
+  display: inline-flex; align-items: center;
   color: var(--on-light);
   transition: color 500ms var(--ease);
 }
-.mark span { color: var(--pink); }
+.mark__txt {
+  font-family: var(--sans);
+  font-size: .8rem; font-weight: 600;
+  letter-spacing: .3em; text-transform: uppercase;
+}
+.mark__txt i { font-style: normal; color: var(--pink); }
+.mark__logo { display: none; }
 body.nav-dark .mark { color: var(--on-dark); }
+
+/* The mark is painted through a mask, so one file inks itself black on the
+   cream and blush bands and cream on the dark ones, from currentColor.
+   Without mask support the set wordmark simply stays visible. */
+@supports ((-webkit-mask-image: url(x.png)) or (mask-image: url(x.png))) {
+  .mark__logo {
+    display: block;
+    height: var(--mark-h, 38px);
+    width: calc(var(--mark-h, 38px) * 2.036);
+    background-color: currentColor;
+    -webkit-mask: url(../images/logo-mark.png) left center / contain no-repeat;
+            mask: url(../images/logo-mark.png) left center / contain no-repeat;
+    transition: height 600ms var(--ease), width 600ms var(--ease);
+  }
+  .mark__txt {
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; white-space: nowrap; clip-path: inset(50%);
+  }
+  .nav.is-stuck .mark { --mark-h: 32px; }
+}
 
 .nav__links { display: flex; gap: clamp(1.4rem, 2.6vw, 2.6rem); }
 .nav__links a {
@@ -989,6 +1013,9 @@ body.ready .hero__obj--side img { animation: fl2 8.5s ease-in-out 1.6s infinite;
 
 @media (max-width: 620px) {
   :root { --band: clamp(4rem, 15vw, 7rem); }
+
+  .mark { --mark-h: 31px; }
+  .nav.is-stuck .mark { --mark-h: 28px; }
 
   .hero { --stage: 96vw; min-height: 100svh; }
   .hero__obj { display: none; }
