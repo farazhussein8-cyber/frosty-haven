@@ -133,53 +133,87 @@ async function emit(pipe, name, widths, q) {
 
   /* ============ HERO PHOTOGRAPH ==================================
      The approved comp used whole, with its baked-in type lifted out so the
-     real headline and buttons stay live text on top. That type sits in two
-     places, both over a near-black field: the masthead strip across the top
-     and the copy block down the left. Neither is painted out by hand - the
-     field either side of each is clean, so both are rebuilt by interpolating
-     across the gap. The shake's cream reaches as far left as x .428 on some
-     rows, so the copy block takes a per-row anchor rather than one column,
-     which is what stops it smearing. */
+     real headline and buttons stay live text on top.
+
+     Only the glyphs are replaced, not the field around them. An earlier
+     pass rebuilt the whole left side by ramping from the frame edge to a
+     clean column near the shake, which looked right but roughly doubled the
+     gradient: the comp holds just 0-7 levels across that dark area, so a
+     stretched version turns invisible one-level steps into banding the
+     encoder then blocks up. Masking the type and interpolating across each
+     glyph run leaves the original field untouched. */
   {
     const SRC = MOCK;
-    const TOP_LO = 0.008, TOP_HI = 0.122, BG = 10;
-    const sm = (a2, b2, x) => { const v = Math.max(0, Math.min(1, (x - a2) / (b2 - a2))); return v * v * (3 - 2 * v); };
+    const OVER = 5;   // how far above the local floor counts as a glyph
+    const WIN  = 300; // half-window for that floor - wider than the pill
+    const GROW = 6;   // grow the mask to swallow the antialiased halo
     const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
     const w = info.width, h = info.height, cn = info.channels, n = w * h;
-    const out = Buffer.alloc(n * 3);
     const px = (x, y, c) => data[(y * w + x) * cn + c];
     const lum = (x, y) => 0.299 * px(x, y, 0) + 0.587 * px(x, y, 1) + 0.114 * px(x, y, 2);
-    const yTopLo = Math.round(h * TOP_LO), yTopHi = Math.round(h * TOP_HI);
-    const anchorFor = new Int32Array(h);
+
+    // regions the comp puts type in, both over near-black: the masthead
+    // strip across the top and the copy block down the left
+    // stop short of the shake: its glass begins around x .428 on some rows,
+    // and anything of it caught here gets smeared across the run
+    const inType = (x, y) => (y < h * 0.125) || (x < w * 0.422 && y < h * 0.86);
+    // A fixed threshold leaves a ghost: it catches the glyph cores but not
+    // their antialiased halo, which sits only a few levels above a field
+    // that is itself only 0-7. Each pixel is compared against the darkest
+    // pixel in a window either side of it, and that same pixel supplies the
+    // fill, so a covered pixel always takes the colour of the field around
+    // it and can never smear what it was covering.
+    //
+    // The window has to be wider than the widest solid thing being removed -
+    // the comp's Order Now pill is ~230px - or every sample inside the pill
+    // is pill and it reads as field. A sliding-window minimum keeps that
+    // affordable at this radius.
+    const mask = new Uint8Array(n);
+    const fill = Buffer.alloc(n * 3);
+    const row = new Float32Array(w);
+    const dq = new Int32Array(w);
     for (let y = 0; y < h; y++) {
-      let a2 = -1;
-      for (let x = Math.round(w * 0.442); x > Math.round(w * 0.28); x--) {
-        if (lum(x, y) < 12) { a2 = x; break; }
+      for (let x = 0; x < w; x++) row[x] = lum(x, y);
+      let head = 0, tail = 0;
+      for (let x = 0; x < w; x++) {
+        const add = Math.min(w - 1, x + WIN);
+        if (x === 0) {
+          for (let k = 0; k <= add; k++) {
+            while (tail > head && row[dq[tail - 1]] >= row[k]) tail--;
+            dq[tail++] = k;
+          }
+        } else if (add > Math.min(w - 1, x - 1 + WIN)) {
+          while (tail > head && row[dq[tail - 1]] >= row[add]) tail--;
+          dq[tail++] = add;
+        }
+        while (dq[head] < x - WIN) head++;
+        const argmin = dq[head];
+        if (!inType(x, y)) continue;
+        const i = y * w + x;
+        for (let c = 0; c < 3; c++) fill[i * 3 + c] = px(argmin, y, c);
+        if (row[x] > row[argmin] + OVER) mask[i] = 1;
       }
-      anchorFor[y] = a2 < 0 ? Math.round(w * 0.34) : a2;
     }
+    const grown = Uint8Array.from(mask);
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      const xa = anchorFor[y];
+      if (!mask[y * w + x]) continue;
+      for (let dy = -GROW; dy <= GROW; dy++) for (let dx = -GROW; dx <= GROW; dx++) {
+        const nx = x + dx, ny = y + dy;
+        if (nx >= 0 && ny >= 0 && nx < w && ny < h && inType(nx, ny)) grown[ny * w + nx] = 1;
+      }
+    }
+
+    const out = Buffer.alloc(n * 3);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = y * w + x;
       for (let c = 0; c < 3; c++) {
-        let v = px(x, y, c);
-        if (y < yTopHi) {
-          const t = sm(0, 1, (y - yTopLo) / (yTopHi - yTopLo));
-          const rebuilt = px(x, yTopLo, c) * (1 - t) + px(x, yTopHi, c) * t;
-          const blend = 1 - sm(yTopHi - h * 0.02, yTopHi, y);
-          v = v * (1 - blend) + rebuilt * blend;
-        }
-        if (x < xa && y > yTopHi) {
-          const t = x / xa;
-          const rebuilt = px(0, y, c) * (1 - t) + px(xa, y, c) * t;
-          const blend = 1 - sm(xa - w * 0.012, xa, x);
-          v = v * (1 - blend) + rebuilt * blend;
-        }
-        out[(y * w + x) * 3 + c] = Math.round(BG + v * ((255 - BG) / 255));
+        out[i * 3 + c] = grown[i] ? fill[i * 3 + c] : px(x, y, c);
       }
     }
     const base = await sharp(out, { raw: { width: w, height: h, channels: 3 } }).png().toBuffer();
     for (const width of [1920, 1440, 1100, 760]) {
-      await sharp(base).resize({ width, kernel: 'lanczos3' }).webp({ quality: 84, effort: 6 })
+      await sharp(base).resize({ width, kernel: 'lanczos3' })
+        .webp({ quality: 93, effort: 6, smartSubsample: true })
         .toFile(path.join(OUT, 'ed-hero-bg-' + width + '.webp'));
     }
     console.log('ed-hero-bg'.padEnd(20), w + 'x' + h, '1920/1440/1100/760');
