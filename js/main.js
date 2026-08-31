@@ -428,6 +428,7 @@
 
   /* ================= scroll + pointer motion ================= */
   var craveImg  = document.querySelector('[data-scale]');
+  var heroBg    = document.querySelector('.hero__bg');
 
   var mx = 0, my = 0, tmx = 0, tmy = 0;   // pointer, smoothed
   var sy = window.scrollY;
@@ -440,6 +441,16 @@
     if (!REDUCED) {
       mx += (tmx - mx) * 0.06;
       my += (tmy - my) * 0.06;
+
+      // the desserts are one photograph, so the whole frame drifts: a few
+      // pixels against the pointer, and a slower lag behind the scroll
+      if (heroBg && sy < vh * 1.25) {
+        // the drift is capped: unchecked it outgrows the overscan and opens
+        // a gap along the hero's bottom edge partway down the scroll
+        var drift = Math.min(14, sy * 0.03);
+        heroBg.style.transform = 'translate3d(' + (mx * -9).toFixed(2) + 'px,' +
+          (my * -6 + drift).toFixed(2) + 'px,0)';
+      }
 
       if (craveImg) {
         var r = craveImg.parentElement.getBoundingClientRect();

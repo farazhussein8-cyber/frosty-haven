@@ -36,7 +36,6 @@
   --serif: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
   --sans:  'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 
-  --d-hero:  calc(var(--stage) * .262);
   --d-1:     clamp(2.9rem, 8.4vw, 8.6rem);
   --d-2:     clamp(2.3rem, 5.6vw, 5.2rem);
   --d-3:     clamp(1.9rem, 3.6vw, 3.4rem);
@@ -364,10 +363,18 @@ body.menu-open .mnav__foot { opacity: 1; }
    narrower box and scaling in brings three desserts up to hero size. */
 /* the comp, full bleed - it carries its own dark left, so nothing is
    masked or boxed and there is no edge to seam */
-.hero__bg { position: absolute; inset: 0; z-index: 0; }
+/* overscanned so the drift below can never expose an edge */
+.hero__bg { position: absolute; inset: -3%; z-index: 0; will-change: transform; }
 .hero__bg img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: 56% 50%;
+}
+/* the photograph breathes; the pointer drift lives on the wrapper so the
+   two transforms never fight each other */
+body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite; }
+@keyframes heroBreathe {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(0, -7px, 0) scale(1.014); }
 }
 /* scrim over the whole hero: the copy side dissolves into the ground */
 .hero::before {
@@ -985,7 +992,7 @@ body.ready .h-plate {
   .hero__copy { max-width: none; }
   /* the photograph is far wider than a phone, so it sits in the lower band
      where the box is less tall and less of the group gets cropped away */
-  .hero__bg { inset: auto 0 0 0; width: 100%; height: 66%; }
+  .hero__bg { inset: auto -4% -4% -4%; width: auto; height: 68%; }
   .hero__bg img { object-position: 62% 62%; }
   .hero::before {
     background:
