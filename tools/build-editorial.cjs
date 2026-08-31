@@ -8,6 +8,7 @@ const sharp = require('C:/Users/GGPC/Downloads/the-fade-creators/node_modules/sh
 const path = require('path'), fs = require('fs');
 
 const DL  = 'C:/Users/GGPC/Downloads';
+const MOCK = 'C:/Users/GGPC/OneDrive/Pictures/Screenshots/Screenshot 2026-08-30 115549.png';
 const RAW = 'C:/Users/GGPC/OneDrive/Desktop/frosty-haven-website/images';
 const OUT = path.join(__dirname, '..', 'images');
 fs.mkdirSync(OUT, { recursive: true });
@@ -130,50 +131,58 @@ async function emit(pipe, name, widths, q) {
     await emit(sharp(base), 'ed-noir-cut', [1000, 720, 520], 84);
   }
 
-  /* ============ HERO PRODUCT — one dessert, lit out of the dark =====
-     The studio set is lit pink with a neon ring directly behind the swirl,
-     and the ring reads within ~40 of the cream in RGB, so no colour key can
-     separate them without gutting the product. The silhouette is described
-     geometrically instead - a cone over an ellipse - and everything outside
-     it is driven down to near-black. Darkening is forgiving where an alpha
-     cut is brutal: a boundary a few pixels inside the product reads as
-     shadow falloff rather than a chopped edge. */
+  /* ============ HERO PHOTOGRAPH ==================================
+     The approved comp used whole, with its baked-in type lifted out so the
+     real headline and buttons stay live text on top. That type sits in two
+     places, both over a near-black field: the masthead strip across the top
+     and the copy block down the left. Neither is painted out by hand - the
+     field either side of each is clean, so both are rebuilt by interpolating
+     across the gap. The shake's cream reaches as far left as x .428 on some
+     rows, so the copy block takes a per-row anchor rather than one column,
+     which is what stops it smearing. */
   {
-    const SRC = RAW + '/flurr-custom.png';
-    const C = [0.250, 0.225, 0.750, 0.840];
-    const FLOOR = 0.030;
-    const sm = (a, b, x) => { const v = Math.max(0, Math.min(1, (x - a) / (b - a))); return v * v * (3 - 2 * v); };
-    const sm2 = await sharp(SRC).metadata();
-    const bx = {
-      left: Math.round(sm2.width * C[0]), top: Math.round(sm2.height * C[1]),
-      width: Math.round(sm2.width * (C[2] - C[0])), height: Math.round(sm2.height * (C[3] - C[1]))
-    };
-    const { data, info } = await sharp(SRC).extract(bx).raw().toBuffer({ resolveWithObject: true });
+    const SRC = MOCK;
+    const TOP_LO = 0.008, TOP_HI = 0.122, BG = 10;
+    const sm = (a2, b2, x) => { const v = Math.max(0, Math.min(1, (x - a2) / (b2 - a2))); return v * v * (3 - 2 * v); };
+    const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
     const w = info.width, h = info.height, cn = info.channels, n = w * h;
-    const px = Buffer.alloc(n * 4);
-    const el = (x, y, cx, cy, rx, ry) => Math.sqrt(((x - cx * w) / (rx * w)) ** 2 + ((y - cy * h) / (ry * h)) ** 2);
+    const out = Buffer.alloc(n * 3);
+    const px = (x, y, c) => data[(y * w + x) * cn + c];
+    const lum = (x, y) => 0.299 * px(x, y, 0) + 0.587 * px(x, y, 1) + 0.114 * px(x, y, 2);
+    const yTopLo = Math.round(h * TOP_LO), yTopHi = Math.round(h * TOP_HI);
+    const anchorFor = new Int32Array(h);
+    for (let y = 0; y < h; y++) {
+      let a2 = -1;
+      for (let x = Math.round(w * 0.442); x > Math.round(w * 0.28); x--) {
+        if (lum(x, y) < 12) { a2 = x; break; }
+      }
+      anchorFor[y] = a2 < 0 ? Math.round(w * 0.34) : a2;
+    }
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      const i = y * w + x, p = i * cn, fx = x / w, fy = y / h;
-      const t2 = Math.max(0, Math.min(1, (fy - 0.085) / (0.701 - 0.085)));
-      const half = 0.024 + (0.228 - 0.024) * Math.pow(t2, 0.94);
-      const swirl = fy < 0.075 ? 0 : 1 - sm(0.88, 1.20, Math.abs(fx - 0.5) / half);
-      const cup = 1 - sm(0.86, 1.10, el(x, y, 0.500, 0.777, 0.335, 0.255));
-      const k2 = Math.max(swirl, cup);
-      const keep = FLOOR + (1 - FLOOR) * k2;
-      const BG = 10;   // #0A0A0A, the hero ground
-      px[i * 4] = Math.round(BG + (data[p] * keep - BG) * k2 + (1 - k2) * 0);
-      px[i * 4 + 1] = Math.round(BG + (data[p + 1] * keep - BG) * k2);
-      px[i * 4 + 2] = Math.round(BG + (data[p + 2] * keep - BG) * k2);
-      px[i * 4 + 3] = Math.round(255 * sm(0, 0.10, fx) * sm(0, 0.10, 1 - fx) * sm(0, 0.09, fy));
+      const xa = anchorFor[y];
+      for (let c = 0; c < 3; c++) {
+        let v = px(x, y, c);
+        if (y < yTopHi) {
+          const t = sm(0, 1, (y - yTopLo) / (yTopHi - yTopLo));
+          const rebuilt = px(x, yTopLo, c) * (1 - t) + px(x, yTopHi, c) * t;
+          const blend = 1 - sm(yTopHi - h * 0.02, yTopHi, y);
+          v = v * (1 - blend) + rebuilt * blend;
+        }
+        if (x < xa && y > yTopHi) {
+          const t = x / xa;
+          const rebuilt = px(0, y, c) * (1 - t) + px(xa, y, c) * t;
+          const blend = 1 - sm(xa - w * 0.012, xa, x);
+          v = v * (1 - blend) + rebuilt * blend;
+        }
+        out[(y * w + x) * 3 + c] = Math.round(BG + v * ((255 - BG) / 255));
+      }
     }
-    const plate = await sharp(px, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
-    for (const width of [1100, 768, 540, 380]) {
-      await sharp(plate).resize({ width, kernel: 'lanczos3' })
-        .sharpen({ sigma: 0.6, m1: 0.4, m2: 1.6 })
-        .webp({ quality: 86, effort: 6, alphaQuality: 96 })
-        .toFile(path.join(OUT, 'ed-hero-noir-' + width + '.webp'));
+    const base = await sharp(out, { raw: { width: w, height: h, channels: 3 } }).png().toBuffer();
+    for (const width of [1920, 1440, 1100, 760]) {
+      await sharp(base).resize({ width, kernel: 'lanczos3' }).webp({ quality: 84, effort: 6 })
+        .toFile(path.join(OUT, 'ed-hero-bg-' + width + '.webp'));
     }
-    console.log('ed-hero-noir'.padEnd(20), w + 'x' + h, '1100/768/540/380');
+    console.log('ed-hero-bg'.padEnd(20), w + 'x' + h, '1920/1440/1100/760');
   }
   /* ============ PRODUCT PLATES =================================== */
   const PLATES = [

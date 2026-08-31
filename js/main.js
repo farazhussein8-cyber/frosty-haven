@@ -395,26 +395,6 @@
     }).join('');
   }
 
-  /* ================= frost =================
-     A dozen specks drifting around the hero product. Deliberately sparse:
-     any more and it stops reading as air and starts reading as an effect. */
-  (function () {
-    var host = $('[data-frost]');
-    if (!host) return;
-    if (REDUCED) { host.remove(); return; }
-    var html = '';
-    for (var i = 0; i < 12; i++) {
-      html += '<i style="' +
-        '--fx:' + (6 + Math.random() * 88).toFixed(1) + '%;' +
-        '--fy:' + (8 + Math.random() * 78).toFixed(1) + '%;' +
-        '--fs:' + (1.5 + Math.random() * 1.9).toFixed(1) + 'px;' +
-        '--fo:' + (0.14 + Math.random() * 0.22).toFixed(2) + ';' +
-        '--fd:' + (7 + Math.random() * 6).toFixed(1) + 's;' +
-        '--fdelay:' + (Math.random() * 7).toFixed(1) + 's"></i>';
-    }
-    host.innerHTML = html;
-  })();
-
   /* ================= reveals =================
      Driven from the same rAF loop as the parallax rather than an
      IntersectionObserver: several of these elements are clip-path
