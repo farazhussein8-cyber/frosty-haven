@@ -135,7 +135,7 @@ async function emit(pipe, name, widths, q) {
     ['ed-p-loadedcup', RAW + '/loaded-cup-hero.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.26, 0.27, 0.74, 0.99], [1200, 840, 560]],
     ['ed-p-pista',     RAW + '/flurr-pista.png',        { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.24, 0.225, 0.76, 0.87], [1200, 840, 560]],
     ['ed-p-acai',      RAW + '/featured-acai-bowl.png', { sat: 0.88, bri: 1.06, boost: 0.75, satCut: 0.30 }, [0.00, 0.00, 1.00, 1.00], [1100, 760, 520]],
-    ['ed-p-shakes',    RAW + '/milkshakes-trio.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.12, 0.28, 0.91, 0.99], [1300, 900, 620]],
+    ['ed-p-shakes',    RAW + '/milkshakes-trio.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.12, 0.28, 0.833, 0.99], [1300, 900, 620]],
     ['ed-p-lava',      RAW + '/lava-cake.webp',         { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.18, 0.29, 0.82, 0.97], [1200, 840, 560]],
     ['ed-p-twist',     RAW + '/soft-serve-twist.webp',  { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.29, 0.30, 0.83, 0.99], [1100, 760, 520]],
     ['ed-marble',      DL + '/frosty-haven-dessert-cream-marble-table.png',   { sat: 0.86, bri: 1.05, boost: 0.9 }, [0.17, 0.15, 0.89, 1.00], [1200, 840, 560]],

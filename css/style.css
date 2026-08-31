@@ -508,7 +508,7 @@ body.menu-open .mnav__foot { opacity: 1; }
 .prod--b .prod__no    { left: 4%; }
 
 /* layout C — wide image, copy tucked beneath its right shoulder */
-.prod--c .prod__media { grid-column: 1 / span 9; }
+.prod--c .prod__media { grid-column: 1 / span 8; }
 .prod--c .prod__body  { grid-column: 9 / span 4; align-self: end; padding-bottom: clamp(0rem, 4vw, 3.5rem); }
 .prod--c .prod__no    { left: 1%; top: -.5em; }
 
