@@ -140,7 +140,10 @@
         LABELS[k] + '">' + ICONS[k] + '</a>';
     }).join('');
   $$('[data-socs]').forEach(function (el) {
-    if (socialHTML) el.innerHTML = socialHTML; else el.remove();
+    if (socialHTML) { el.innerHTML = socialHTML; return; }
+    // the hero's row carries a Follow label, which is meaningless on its own
+    var row = el.closest('.hero__social');
+    (row || el).remove();
   });
 
   /* ================= contact details ================= */
