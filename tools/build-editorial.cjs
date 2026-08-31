@@ -144,55 +144,27 @@ async function emit(pipe, name, widths, q) {
      glyph run leaves the original field untouched. */
   {
     const SRC = MOCK;
-    const OVER = 5;   // how far above the local floor counts as a glyph
-    const WIN  = 300; // half-window for that floor - wider than the pill
-    const GROW = 6;   // grow the mask to swallow the antialiased halo
+    const TEXT = 22;  // a glyph is far brighter than the field, which is 0-7
+    const GROW = 8;   // dilate from the cores to swallow the antialiased halo
+
     const { data, info } = await sharp(SRC).raw().toBuffer({ resolveWithObject: true });
     const w = info.width, h = info.height, cn = info.channels, n = w * h;
     const px = (x, y, c) => data[(y * w + x) * cn + c];
     const lum = (x, y) => 0.299 * px(x, y, 0) + 0.587 * px(x, y, 1) + 0.114 * px(x, y, 2);
-
-    // regions the comp puts type in, both over near-black: the masthead
-    // strip across the top and the copy block down the left
-    // stop short of the shake: its glass begins around x .428 on some rows,
-    // and anything of it caught here gets smeared across the run
+    // the two places the comp puts type, both over the near-black field;
+    // the copy block stops short of the shake, whose glass starts near x .428
     const inType = (x, y) => (y < h * 0.125) || (x < w * 0.422 && y < h * 0.86);
-    // A fixed threshold leaves a ghost: it catches the glyph cores but not
-    // their antialiased halo, which sits only a few levels above a field
-    // that is itself only 0-7. Each pixel is compared against the darkest
-    // pixel in a window either side of it, and that same pixel supplies the
-    // fill, so a covered pixel always takes the colour of the field around
-    // it and can never smear what it was covering.
-    //
-    // The window has to be wider than the widest solid thing being removed -
-    // the comp's Order Now pill is ~230px - or every sample inside the pill
-    // is pill and it reads as field. A sliding-window minimum keeps that
-    // affordable at this radius.
+
+    // Threshold globally, not against a local floor. A local floor sounds
+    // safer but the field itself spans 0-7, so its own gradient clears
+    // floor+5 and gets masked - which flattened the comp's ambient falloff
+    // to black and left a hard edge where the mask stopped. A flat cut at 22
+    // is far above the field and far below any glyph, so it takes the type
+    // and nothing else. The halo is handled by dilation from the cores
+    // instead, which does not care how faint the halo is.
     const mask = new Uint8Array(n);
-    const fill = Buffer.alloc(n * 3);
-    const row = new Float32Array(w);
-    const dq = new Int32Array(w);
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) row[x] = lum(x, y);
-      let head = 0, tail = 0;
-      for (let x = 0; x < w; x++) {
-        const add = Math.min(w - 1, x + WIN);
-        if (x === 0) {
-          for (let k = 0; k <= add; k++) {
-            while (tail > head && row[dq[tail - 1]] >= row[k]) tail--;
-            dq[tail++] = k;
-          }
-        } else if (add > Math.min(w - 1, x - 1 + WIN)) {
-          while (tail > head && row[dq[tail - 1]] >= row[add]) tail--;
-          dq[tail++] = add;
-        }
-        while (dq[head] < x - WIN) head++;
-        const argmin = dq[head];
-        if (!inType(x, y)) continue;
-        const i = y * w + x;
-        for (let c = 0; c < 3; c++) fill[i * 3 + c] = px(argmin, y, c);
-        if (row[x] > row[argmin] + OVER) mask[i] = 1;
-      }
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      if (inType(x, y) && lum(x, y) > TEXT) mask[y * w + x] = 1;
     }
     const grown = Uint8Array.from(mask);
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
@@ -203,11 +175,18 @@ async function emit(pipe, name, widths, q) {
       }
     }
 
+    // Interpolate across each masked run from the clean field either side.
+    // Across a smooth field that reproduces the gradient rather than
+    // replacing it, so the falloff survives.
     const out = Buffer.alloc(n * 3);
     for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
       const i = y * w + x;
+      if (!grown[i]) { for (let c = 0; c < 3; c++) out[i * 3 + c] = px(x, y, c); continue; }
+      let l = x; while (l > 0 && grown[y * w + l]) l--;
+      let r = x; while (r < w - 1 && grown[y * w + r]) r++;
+      const tt = (x - l) / Math.max(1, r - l);
       for (let c = 0; c < 3; c++) {
-        out[i * 3 + c] = grown[i] ? fill[i * 3 + c] : px(x, y, c);
+        out[i * 3 + c] = Math.round(px(l, y, c) * (1 - tt) + px(r, y, c) * tt);
       }
     }
     const base = await sharp(out, { raw: { width: w, height: h, channels: 3 } }).png().toBuffer();
