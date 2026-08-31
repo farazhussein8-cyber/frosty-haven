@@ -130,6 +130,51 @@ async function emit(pipe, name, widths, q) {
     await emit(sharp(base), 'ed-noir-cut', [1000, 720, 520], 84);
   }
 
+  /* ============ HERO PRODUCT — one dessert, lit out of the dark =====
+     The studio set is lit pink with a neon ring directly behind the swirl,
+     and the ring reads within ~40 of the cream in RGB, so no colour key can
+     separate them without gutting the product. The silhouette is described
+     geometrically instead - a cone over an ellipse - and everything outside
+     it is driven down to near-black. Darkening is forgiving where an alpha
+     cut is brutal: a boundary a few pixels inside the product reads as
+     shadow falloff rather than a chopped edge. */
+  {
+    const SRC = RAW + '/flurr-custom.png';
+    const C = [0.250, 0.225, 0.750, 0.840];
+    const FLOOR = 0.030;
+    const sm = (a, b, x) => { const v = Math.max(0, Math.min(1, (x - a) / (b - a))); return v * v * (3 - 2 * v); };
+    const sm2 = await sharp(SRC).metadata();
+    const bx = {
+      left: Math.round(sm2.width * C[0]), top: Math.round(sm2.height * C[1]),
+      width: Math.round(sm2.width * (C[2] - C[0])), height: Math.round(sm2.height * (C[3] - C[1]))
+    };
+    const { data, info } = await sharp(SRC).extract(bx).raw().toBuffer({ resolveWithObject: true });
+    const w = info.width, h = info.height, cn = info.channels, n = w * h;
+    const px = Buffer.alloc(n * 4);
+    const el = (x, y, cx, cy, rx, ry) => Math.sqrt(((x - cx * w) / (rx * w)) ** 2 + ((y - cy * h) / (ry * h)) ** 2);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = y * w + x, p = i * cn, fx = x / w, fy = y / h;
+      const t2 = Math.max(0, Math.min(1, (fy - 0.085) / (0.701 - 0.085)));
+      const half = 0.024 + (0.228 - 0.024) * Math.pow(t2, 0.94);
+      const swirl = fy < 0.075 ? 0 : 1 - sm(0.88, 1.20, Math.abs(fx - 0.5) / half);
+      const cup = 1 - sm(0.86, 1.10, el(x, y, 0.500, 0.777, 0.335, 0.255));
+      const k2 = Math.max(swirl, cup);
+      const keep = FLOOR + (1 - FLOOR) * k2;
+      const BG = 10;   // #0A0A0A, the hero ground
+      px[i * 4] = Math.round(BG + (data[p] * keep - BG) * k2 + (1 - k2) * 0);
+      px[i * 4 + 1] = Math.round(BG + (data[p + 1] * keep - BG) * k2);
+      px[i * 4 + 2] = Math.round(BG + (data[p + 2] * keep - BG) * k2);
+      px[i * 4 + 3] = Math.round(255 * sm(0, 0.10, fx) * sm(0, 0.10, 1 - fx) * sm(0, 0.09, fy));
+    }
+    const plate = await sharp(px, { raw: { width: w, height: h, channels: 4 } }).png().toBuffer();
+    for (const width of [1100, 768, 540, 380]) {
+      await sharp(plate).resize({ width, kernel: 'lanczos3' })
+        .sharpen({ sigma: 0.6, m1: 0.4, m2: 1.6 })
+        .webp({ quality: 86, effort: 6, alphaQuality: 96 })
+        .toFile(path.join(OUT, 'ed-hero-noir-' + width + '.webp'));
+    }
+    console.log('ed-hero-noir'.padEnd(20), w + 'x' + h, '1100/768/540/380');
+  }
   /* ============ PRODUCT PLATES =================================== */
   const PLATES = [
     ['ed-p-loadedcup', RAW + '/loaded-cup-hero.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.26, 0.27, 0.74, 0.99], [1200, 840, 560]],

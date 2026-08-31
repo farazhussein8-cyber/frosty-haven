@@ -395,6 +395,26 @@
     }).join('');
   }
 
+  /* ================= frost =================
+     A dozen specks drifting around the hero product. Deliberately sparse:
+     any more and it stops reading as air and starts reading as an effect. */
+  (function () {
+    var host = $('[data-frost]');
+    if (!host) return;
+    if (REDUCED) { host.remove(); return; }
+    var html = '';
+    for (var i = 0; i < 12; i++) {
+      html += '<i style="' +
+        '--fx:' + (6 + Math.random() * 88).toFixed(1) + '%;' +
+        '--fy:' + (8 + Math.random() * 78).toFixed(1) + '%;' +
+        '--fs:' + (1.5 + Math.random() * 1.9).toFixed(1) + 'px;' +
+        '--fo:' + (0.14 + Math.random() * 0.22).toFixed(2) + ';' +
+        '--fd:' + (7 + Math.random() * 6).toFixed(1) + 's;' +
+        '--fdelay:' + (Math.random() * 7).toFixed(1) + 's"></i>';
+    }
+    host.innerHTML = html;
+  })();
+
   /* ================= reveals =================
      Driven from the same rAF loop as the parallax rather than an
      IntersectionObserver: several of these elements are clip-path
@@ -427,21 +447,11 @@
   }
 
   /* ================= scroll + pointer motion ================= */
-  var heroMain  = document.querySelector('.hero__obj--main');
-  var heroSide  = document.querySelector('.hero__obj--side');
-  var heroM     = document.querySelector('.hero__m');
-  var heroWordA = document.querySelector('.hero__word--a');
-  var heroWordB = document.querySelector('.hero__word--b');
   var craveImg  = document.querySelector('[data-scale]');
 
   var mx = 0, my = 0, tmx = 0, tmy = 0;   // pointer, smoothed
   var sy = window.scrollY;
   var running = false;
-
-  function layer(el, dx, dy) {
-    if (!el) return;
-    el.style.transform = 'translate3d(' + dx.toFixed(2) + 'px,' + dy.toFixed(2) + 'px,0)';
-  }
 
   function frame() {
     running = false;
@@ -450,16 +460,6 @@
     if (!REDUCED) {
       mx += (tmx - mx) * 0.06;
       my += (tmy - my) * 0.06;
-
-      if (sy < vh * 1.25) {
-        var p = sy / vh;                       // 0 → 1 across the hero
-        var k = window.innerWidth < 760 ? 0.42 : 1;   // gentler on a phone
-        layer(heroMain,  mx * 20,  my * 15 + p * 96 * k);
-        layer(heroSide,  mx * 34,  my * 24 + p * 132 * k);
-        layer(heroM,     mx * 8,   my * 6  + p * 74 * k);
-        layer(heroWordA, mx * -7,  my * -5 + p * 26 * k);
-        layer(heroWordB, mx * -11, my * -8 + p * 150 * k);
-      }
 
       if (craveImg) {
         var r = craveImg.parentElement.getBoundingClientRect();

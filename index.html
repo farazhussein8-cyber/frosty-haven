@@ -16,12 +16,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="images/ed-hero-front-800.webp"
-      imagesrcset="images/ed-hero-front-560.webp 560w, images/ed-hero-front-800.webp 800w, images/ed-hero-front-1100.webp 1100w"
-      imagesizes="48vw" fetchpriority="high" media="(min-width: 621px)">
-<link rel="preload" as="image" href="images/ed-hero-m-640.webp"
-      imagesrcset="images/ed-hero-m-460.webp 460w, images/ed-hero-m-640.webp 640w, images/ed-hero-m-900.webp 900w"
-      imagesizes="108vw" fetchpriority="high" media="(max-width: 620px)">
+<link rel="preload" as="image" href="images/ed-hero-noir-768.webp"
+      imagesrcset="images/ed-hero-noir-380.webp 380w, images/ed-hero-noir-540.webp 540w, images/ed-hero-noir-768.webp 768w, images/ed-hero-noir-1100.webp 1100w"
+      imagesizes="(max-width: 767px) 96vw, 58vw" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
 <link rel="stylesheet" href="css/style.css">
 <noscript><style>[data-rv],.h-rv,.h-mask,.h-plate{opacity:1!important;transform:none!important;clip-path:none!important}</style></noscript>
@@ -66,49 +63,41 @@
 <main id="main">
 
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
-<section class="hero" id="top">
+<section class="hero on-dark" id="top" data-dark>
+  <div class="hero__inner">
 
-  <div class="hero__stage">
-    <h1 class="hero__lock">
-      <span class="hero__word hero__word--a h-mask" style="--d:120ms">Frosty</span>
-      <span class="hero__word hero__word--b h-mask" style="--d:300ms">Haven</span>
-    </h1>
+    <div class="hero__copy">
+      <p class="hero__eyebrow h-rv" style="--d:140ms">Frosty Haven &nbsp;—&nbsp; Palmerston North</p>
 
-    <div class="hero__obj hero__obj--main h-plate" style="--d:220ms">
-      <img src="images/ed-hero-front-800.webp"
-           srcset="images/ed-hero-front-560.webp 560w, images/ed-hero-front-800.webp 800w, images/ed-hero-front-1100.webp 1100w"
-           sizes="48vw" width="903" height="847" fetchpriority="high" decoding="async"
-           alt="A Frosty Haven açaí bowl piled with granola, pistachio and strawberry, with loaded trays and shakes behind it">
+      <h1 class="hero__title">
+        <span class="h-mask" style="--d:240ms">Dessert worth</span>
+        <span class="h-mask" style="--d:360ms">making room for.</span>
+      </h1>
+
+      <p class="hero__sub h-rv" style="--d:560ms">
+        Swirled fresh the moment you order, piled high, and gone far too quickly.
+        Everything halal, every day.
+      </p>
+
+      <div class="hero__acts h-rv" style="--d:680ms">
+        <a class="btn btn--fill" data-order href="#visit">Order Now <i>&rarr;</i></a>
+        <a class="btn btn--text" href="menu.html">Explore the Menu</a>
+      </div>
     </div>
 
-    <div class="hero__obj hero__obj--side h-plate" style="--d:440ms" aria-hidden="true">
-      <img src="images/ed-hero-side-l-420.webp"
-           srcset="images/ed-hero-side-l-300.webp 300w, images/ed-hero-side-l-420.webp 420w"
-           sizes="16vw" width="318" height="795" decoding="async" alt="">
+    <div class="hero__product" aria-hidden="true">
+      <span class="hero__glow"></span>
+      <span class="frost" data-frost></span>
     </div>
 
-    <div class="hero__m h-plate" style="--d:220ms" aria-hidden="true">
-      <img src="images/ed-hero-m-640.webp"
-           srcset="images/ed-hero-m-460.webp 460w, images/ed-hero-m-640.webp 640w, images/ed-hero-m-900.webp 900w"
-           sizes="108vw" width="1137" height="885" decoding="async" alt="">
-    </div>
   </div>
 
-  <div class="hero__foot">
-    <div>
-      <p class="hero__say h-rv" style="--d:640ms">Dessert worth<br>making room for.</p>
-      <p class="hero__place h-rv" style="--d:700ms">Palmerston North &nbsp;—&nbsp; Aotearoa NZ</p>
-    </div>
-
-    <div class="hero__acts h-rv" style="--d:740ms">
-      <a class="btn btn--fill" href="menu.html">Explore the Menu <i>&rarr;</i></a>
-      <a class="btn btn--text" data-order href="#visit">Order Now</a>
-    </div>
-
-    <div class="hero__scroll h-rv" style="--d:840ms">
-      <span>01 / 05 &nbsp;—&nbsp; Signature Collection</span>
-      <span class="hero__scroll__go"><b>Scroll to explore</b><s></s></span>
-    </div>
+  <div class="hero__shotwrap h-plate" style="--d:300ms">
+    <img class="hero__shot" src="images/ed-hero-noir-768.webp"
+         srcset="images/ed-hero-noir-380.webp 380w, images/ed-hero-noir-540.webp 540w, images/ed-hero-noir-768.webp 768w, images/ed-hero-noir-1100.webp 1100w"
+         sizes="(max-width: 767px) 96vw, 58vw"
+         width="768" height="630" fetchpriority="high" decoding="async"
+         alt="A Frosty Haven flurr — soft serve swirled with pistachio and chocolate, piled with granola and fresh strawberries">
   </div>
 </section>
 
