@@ -8,6 +8,10 @@
 /*  1. TOKENS                                                        */
 /* ---------------------------------------------------------------- */
 :root {
+  --rose:  #E78B96;   /* the comp's wordmark and outline pink */
+  --rose-lt: #F7CDD1;
+  --rose-fill: #E29198;
+
   /* surfaces */
   --blush:  #F4DEDF;
   --cream:  #FAF6F1;
@@ -177,17 +181,29 @@ h1, h2, h3, h4 { margin: 0; font-weight: 400; }
 .on-dark .btn--line { border-color: rgba(250,246,241,.34); color: var(--on-dark); }
 .on-dark .btn--line:hover { border-color: var(--on-dark); }
 
-/* hero pair: filled blush against a rose outline */
+/* nav CTA: an outline rather than a fill, as in the comp */
+.btn--navedge {
+  padding: .95em 1.7em; border-radius: 100px;
+  font-size: .7rem;
+  /* rose over the dark hero as drawn; ink on the cream and blush bands,
+     where rose on cream is only about 2.2:1 and fails on text this small */
+  border: 1px solid rgba(231,139,150,.75); color: var(--ink);
+}
+.btn--navedge:hover { border-color: var(--rose); background: rgba(231,139,150,.10); }
+body.nav-dark .btn--navedge { border-color: rgba(255,194,201,.5); color: var(--rose-lt); }
+body.nav-dark .btn--navedge:hover { border-color: var(--rose-lt); background: rgba(255,194,201,.10); }
+
+/* hero pair: filled rose against a rose outline */
 .btn--blush {
-  background: var(--blush); color: var(--ink);
+  background: var(--rose-fill); color: var(--ink);
   padding: 1.15em 2.1em; border-radius: 100px;
 }
-.btn--blush:hover { background: var(--white); }
+.btn--blush:hover { background: #F0B3B8; }
 .btn--edge {
   padding: 1.15em 2.1em; border-radius: 100px;
-  border: 1px solid rgba(227,179,174,.6); color: var(--blush);
+  border: 1px solid rgba(231,139,150,.62); color: var(--rose-lt);
 }
-.btn--edge:hover { border-color: var(--blush); background: rgba(244,222,223,.07); }
+.btn--edge:hover { border-color: var(--rose-lt); background: rgba(231,139,150,.10); }
 
 /* underlined text link */
 .btn--text {
@@ -228,7 +244,7 @@ body.nav-dark .nav.is-stuck {
 
 .mark {
   display: inline-flex; align-items: center;
-  color: var(--on-light);
+  color: var(--rose);
   transition: color 500ms var(--ease);
 }
 .mark__txt {
@@ -238,7 +254,7 @@ body.nav-dark .nav.is-stuck {
 }
 .mark__txt i { font-style: normal; color: var(--pink); }
 .mark__logo { display: none; }
-body.nav-dark .mark { color: var(--on-dark); }
+
 
 /* The mark is painted through a mask, so one file inks itself black on the
    cream and blush bands and cream on the dark ones, from currentColor.
@@ -277,8 +293,10 @@ body.nav-dark .mark { color: var(--on-dark); }
 .nav__links a:hover { color: var(--on-light); }
 .nav__links a:hover::after,
 .nav__links a.is-on::after { transform: scaleX(1); transform-origin: left; }
-body.nav-dark .nav__links a { color: var(--on-dark-70); }
-body.nav-dark .nav__links a:hover { color: var(--on-dark); }
+body.nav-dark .nav__links a { color: rgba(255,255,255,.82); }
+body.nav-dark .nav__links a:hover { color: #fff; }
+.nav__links a.is-on { color: var(--rose); }
+body.nav-dark .nav__links a.is-on { color: var(--rose-lt); }
 
 .nav__right { display: flex; align-items: center; gap: 1rem; }
 .nav .btn--fill { font-size: .7rem; padding: .95em 1.6em; }
@@ -374,7 +392,7 @@ body.menu-open .mnav__foot { opacity: 1; }
   margin: 0 0 clamp(1.4rem, 3vw, 2.1rem);
   font-size: .75rem; font-weight: 500;
   letter-spacing: .22em; text-transform: uppercase;
-  color: #E3B3AE;
+  color: #DCA6A4;
 }
 
 .hero__title {
