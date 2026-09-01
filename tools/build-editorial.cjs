@@ -211,11 +211,10 @@ async function emit(pipe, name, widths, q) {
     // keeps the full frame width and only trims above the swirl and below the
     // base. Closing in horizontally would cut the cup off at the bottom.
     ['ed-p-pista',     RAW + '/flurr-pista-cup.png',    { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.00, 0.085, 1.00, 0.915], [1200, 840, 560]],
-    // Shot on black, so no blush key — there is no pale ground for it to find,
-    // and grading toward blush would only wash the açaí out. Lifted off pure
-    // black instead so the tile does not punch a hole in the cream section.
-    // Widths stop at the source: this copy is 700px wide.
-    ['ed-p-acai',      RAW + '/gallery/acai-bowl.jpg',  { sat: 0.95, bri: 1.0, boost: 0, lift: 12 }, [0.00, 0.00, 1.00, 1.00], [700, 520, 380]],
+    // Back on the pink set, so the blush key has pale ground to work with
+    // again. Shot 4:5 already, so it needs no crop — the tile is a straight
+    // resize rather than a cover crop that guesses at the framing.
+    ['ed-p-acai',      RAW + '/gallery/acai-bowl-pink.png', { sat: 0.78, bri: 1.06, boost: 1.0, satCut: 0.40 }, [0.00, 0.00, 1.00, 1.00], [1100, 760, 520]],
     // Back on the pink set, so this takes the same blush grade as the rest of
     // the plates. The crop only trims dead space above the straws and below
     // the ice — the shot is composed square and cropping it to the old
@@ -265,7 +264,7 @@ async function emit(pipe, name, widths, q) {
   const TILES = [
     ['ed-t-loadedcup', 'ed-p-loadedcup-1200.webp'],
     ['ed-t-pista',     'ed-p-pista-1200.webp'],
-    ['ed-t-acai',      'ed-p-acai-700.webp'],
+    ['ed-t-acai',      'ed-p-acai-1100.webp'],
     ['ed-t-shakes',    'ed-p-shakes-1300.webp'],
     ['ed-t-lava',      'ed-p-lava-1200.webp'],
     ['ed-t-twist',     'ed-p-twist-1100.webp'],
