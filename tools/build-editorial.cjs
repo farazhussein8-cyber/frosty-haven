@@ -207,7 +207,10 @@ async function emit(pipe, name, widths, q) {
   /* ============ PRODUCT PLATES =================================== */
   const PLATES = [
     ['ed-p-loadedcup', RAW + '/loaded-cup-hero.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.26, 0.27, 0.74, 0.99], [1200, 840, 560]],
-    ['ed-p-pista',     RAW + '/flurr-pista.png',        { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.24, 0.225, 0.76, 0.87], [1200, 840, 560]],
+    // The cup is tall and narrow where the old bowl was wide, so the crop
+    // keeps the full frame width and only trims above the swirl and below the
+    // base. Closing in horizontally would cut the cup off at the bottom.
+    ['ed-p-pista',     RAW + '/flurr-pista-cup.png',    { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.00, 0.085, 1.00, 0.915], [1200, 840, 560]],
     ['ed-p-acai',      RAW + '/featured-acai-bowl.png', { sat: 0.88, bri: 1.06, boost: 0.75, satCut: 0.30 }, [0.00, 0.00, 1.00, 1.00], [1100, 760, 520]],
     // Back on the pink set, so this takes the same blush grade as the rest of
     // the plates. The crop only trims dead space above the straws and below
