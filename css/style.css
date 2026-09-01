@@ -188,6 +188,14 @@ h1, h2, h3, h4 { margin: 0; font-weight: 400; }
      where rose on cream is only about 2.2:1 and fails on text this small */
   border: 1px solid rgba(231,139,150,.75); color: var(--ink);
 }
+/* sits inside the button rather than beside it as a control of its own:
+   a second cart element would look like a basket you could open, and
+   orders here are a WhatsApp message, not a checkout */
+.btn__cart {
+  width: 15px; height: 15px; flex: none;
+  transition: transform 420ms var(--ease);
+}
+.btn:hover .btn__cart { transform: translateY(-1px) scale(1.06); }
 .btn--navedge:hover { border-color: var(--rose); background: rgba(231,139,150,.10); }
 body.nav-dark .btn--navedge { border-color: rgba(255,194,201,.5); color: var(--rose-lt); }
 body.nav-dark .btn--navedge:hover { border-color: var(--rose-lt); background: rgba(255,194,201,.10); }
