@@ -78,14 +78,14 @@ window.FROSTY_HAVEN = {
           "name": "Zena Fareen",
           "text": "Five Stars! Frosty Haven is an amazing spot for a treat. Their desserts are not only beautifully presented (seriously, they are photo-worthy!) but also taste incredible. The soft serve is creamy, and they have so many creative, delicious topping combinations. A must-try—I'll definitely be back!",
           "source": "Google",
-          "when": "9 months ago",
+          "when": "10 months ago",
           "stars": 5
       },
       {
           "name": "Jenny B.",
           "text": "Great ice cream with fantastic flavors and friendly staff. Creamy, and delicious soft serve with pistachio sauce. Highly recommend!!",
           "source": "Google",
-          "when": "2 months ago",
+          "when": "3 months ago",
           "stars": 5
       },
       {
@@ -99,14 +99,14 @@ window.FROSTY_HAVEN = {
           "name": "Vivian De Almeida",
           "text": "Frosty Haven has delicious desserts! I especially love the Açaí because it reminds me of Açaí from Hawaii and Brazil. The thickshakes are actually thick😊 Each item I've eaten has been unforgettable. The owners of the dessert shop are attentive, kind, and great conversationalists. Recommend it 10/10",
           "source": "Google",
-          "when": "3 months ago",
+          "when": "4 months ago",
           "stars": 5
       },
       {
           "name": "Ayana Sue",
           "text": "I've tried juice up in Wellington and they are nowhere near as nice as this place. The acai flavour is very strong and really nice. 10/10 would reccomend. Owners are lovely",
           "source": "Google",
-          "when": "a month ago",
+          "when": "2 months ago",
           "stars": 5
       },
       {
@@ -120,7 +120,7 @@ window.FROSTY_HAVEN = {
           "name": "Chantelle Cundy",
           "text": "Honestly the best dessert we've ever had, will keep coming back and recommending to everyone we know. Perfect combo, crunch and flavour, the owner is so lovely and kind also! They stayed open later just for us and insisted to stay and eat amazing! 100 out of 10 thank you guys!",
           "source": "Google",
-          "when": "3 weeks ago",
+          "when": "a month ago",
           "stars": 5
       },
       {
@@ -134,14 +134,14 @@ window.FROSTY_HAVEN = {
           "name": "Amelia Chappell",
           "text": "Lots of great dessert options and a lot of them are very reasonably priced. We tried a Biscoff Flurr, a Pistachio Flurr, Cookie with biscoff toppings, Strawberry thickshake, and vanilla soft serve with sprinkles. Everyone was happy with their choices. They were a bit rich by the end, but otherwise very happy and would visit again!",
           "source": "Google",
-          "when": "2 weeks ago",
+          "when": "a month ago",
           "stars": 5
       },
       {
           "name": "Talitha Mao-Adams",
           "text": "I love the flavours here and the Acai is the best! The owners are very friendly and accommodating- only danger to my wallet.",
           "source": "Google",
-          "when": "a month ago",
+          "when": "2 months ago",
           "stars": 5
       },
       {
@@ -197,14 +197,14 @@ window.FROSTY_HAVEN = {
           "name": "Jess Sunnex",
           "text": "It was really nice here. Friendly service, and great atmosphere. The drink was really nice and the flurr was great also.",
           "source": "Google",
-          "when": "6 months ago",
+          "when": "7 months ago",
           "stars": 5
       },
       {
           "name": "Shayna Poaneki",
           "text": "Loved this spot, exceptional cheese cake and brownie combo.",
           "source": "Google",
-          "when": "6 months ago",
+          "when": "7 months ago",
           "stars": 5
       },
       {
@@ -232,35 +232,35 @@ window.FROSTY_HAVEN = {
           "name": "Goofy Ahhh",
           "text": "So yummy, very nice owners. SO WORTH IT AND FULLING!!",
           "source": "Google",
-          "when": "8 months ago",
+          "when": "9 months ago",
           "stars": 5
       },
       {
           "name": "rose singh",
           "text": "Very nice and delicious\nService very friendly and helpful\nWill see you again",
           "source": "Google",
-          "when": "9 months ago",
+          "when": "10 months ago",
           "stars": 5
       },
       {
           "name": "VJ Woollett",
           "text": "Absolutely delicious. And wonderful friendly service. We will be back.",
           "source": "Google",
-          "when": "a week ago",
+          "when": "4 weeks ago",
           "stars": 5
       },
       {
           "name": "Courtney Thompson",
           "text": "Super yummy treat. Lots of great options to suit every sweet tooth. Loved the warm brownie and ice cream. Will be back to try other things in future. Not a lot of seating inside, but it wasn't busy when we popped in. Friendly service, staff were helpful with my questions",
           "source": "Google",
-          "when": "3 weeks ago",
+          "when": "a month ago",
           "stars": 5
       },
       {
           "name": "Palmy NBJ",
           "text": "Very cute place with attentive owners. Priced fairly too. We loved the dessert nachos 😋",
           "source": "Google",
-          "when": "4 weeks ago",
+          "when": "a month ago",
           "stars": 5
       },
       {
@@ -268,6 +268,139 @@ window.FROSTY_HAVEN = {
           "text": "Biscoff waffle is elite. Friendly staff. Definitely recommend and pricing is on the cheaper to standard price range.",
           "source": "Google",
           "when": "a month ago",
+          "stars": 5
+      },
+      {
+          "name": "Dyani Verney",
+          "text": "The owners are so lovely every time I go in, they help with me choosing something different because everything I've tried is delicious!",
+          "source": "Google",
+          "when": "5 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Ryan Lochore",
+          "text": "Came here tonight for the first time and have to say the service was amazing very polite and the food was DELICIOUS!",
+          "source": "Google",
+          "when": "5 months ago",
+          "stars": 5
+      },
+      {
+          "name": "jordan leota",
+          "text": "Oh my golly gosh 🔥🤣 you NEED to try the pistachio ice cream and chocolate brownie at Frosty Haven!!! 🤤 It's like a match made in heaven!",
+          "source": "Google",
+          "when": "7 months ago",
+          "stars": 5
+      },
+      {
+          "name": "kaihoe apiata",
+          "text": "Went in their and tried there haven shake i got the mixed berry protein shake and it was yum! Lovely people and the acai that I bought after because my family were making it look good was DELICIOUS!",
+          "source": "Google",
+          "when": "9 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Amanda Philpott",
+          "text": "Such a lovely little family owned business!",
+          "source": "Google",
+          "when": "4 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Maggie Olsen",
+          "text": "Genuinely tasty ice cream! Very creamy (the vanilla) and enjoyable to eat (both vanilla and acai). Also really liked the pistachio sauce.",
+          "source": "Google",
+          "when": "6 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Kora Nikora",
+          "text": "The ice cream IS AMAZING, they're all so nice here and it's just a good vibe overall",
+          "source": "Google",
+          "when": "a week ago",
+          "stars": 5
+      },
+      {
+          "name": "Wazarat Jafari",
+          "text": "Yummy yummy worth trying it!!",
+          "source": "Google",
+          "when": "9 months ago",
+          "stars": 5
+      },
+      {
+          "name": "jared hope",
+          "text": "So yummy and very friendly and quick services",
+          "source": "Google",
+          "when": "5 months ago",
+          "stars": 5
+      },
+      {
+          "name": "James Nadine",
+          "text": "Amazing service and Yumm!",
+          "source": "Google",
+          "when": "6 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Bodie Erkens",
+          "text": "A definite must for anyone..",
+          "source": "Google",
+          "when": "6 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Sophie B",
+          "text": "Definitely a new favorite 😋",
+          "source": "Google",
+          "when": "9 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Talia Hingston",
+          "text": "Love this place!",
+          "source": "Google",
+          "when": "6 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Libby Bird",
+          "text": "Delicious, got the frosty flurr with Biscoff",
+          "source": "Google",
+          "when": "4 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Julian Eĺliott",
+          "text": "My grandkids loved it popping candy amazing",
+          "source": "Google",
+          "when": "4 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Rania Elgharably",
+          "text": "The açaí is delicious 😋",
+          "source": "Google",
+          "when": "2 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Eli",
+          "text": "Love it",
+          "source": "Google",
+          "when": "a month ago",
+          "stars": 5
+      },
+      {
+          "name": "Patrick Wallace",
+          "text": "Very good. Nice tidy shop staff were good.",
+          "source": "Google",
+          "when": "2 months ago",
+          "stars": 5
+      },
+      {
+          "name": "Julian Powell",
+          "text": "Great ice creams",
+          "source": "Google",
+          "when": "6 months ago",
           "stars": 5
       }
   ]

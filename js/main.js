@@ -330,10 +330,12 @@
   if (mount) {
     var all = Array.isArray(CFG.reviews) ? CFG.reviews : [];
     /* the layout gives one review the whole page, so it wants the ones
-       that read as a line, not a paragraph. Nothing is edited or invented. */
+       that read as a line, not a paragraph. Nothing is edited or invented.
+       The rest still live in the config — a one-line review cannot carry
+       type this size, and a long one overruns the slide. */
     var picks = all.filter(function (r) {
       return r && has(r.text) && r.text.trim().length >= 55 && r.text.trim().length <= 168;
-    }).sort(function (a, b) { return b.text.length - a.text.length; }).slice(0, 7);
+    }).sort(function (a, b) { return b.text.length - a.text.length; }).slice(0, 12);
 
     if (!picks.length) {
       mount.innerHTML =
