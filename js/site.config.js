@@ -49,6 +49,15 @@ window.FROSTY_HAVEN = {
     facebook: ''
   },
 
+  /* ---- Site credit -----------------------------------------------
+     The build credit in the footer. Clear `name` and the whole line
+     goes; clear `url` and the name stays as plain text rather than a
+     link that leads nowhere. */
+  credit: {
+    name: 'QuietM',
+    url: 'https://www.instagram.com/quiet_.m3/'
+  },
+
   /* ---- Ratings (shown beside the reviews) ------------------------ */
   ratings: [
     { score: '4.8', of: '5', label: 'Google', note: '62 reviews' },

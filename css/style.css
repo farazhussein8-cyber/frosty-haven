@@ -834,6 +834,29 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   color: var(--on-dark-45);
 }
 
+/* build credit — quieter than the copyright line above it, and set on its
+   own rule so it reads as a signature rather than another footer link */
+.foot__by {
+  border-top: 1px solid rgba(250,246,241,.09);
+  padding: 1.4rem 0 clamp(1.6rem, 3vw, 2.2rem);
+  font-size: var(--micro); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--on-dark-45);
+}
+.foot__by a {
+  color: var(--on-dark-70);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(250,246,241,.22);
+  padding-bottom: .15em;
+  transition: color 380ms var(--ease), border-color 380ms var(--ease);
+}
+.foot__by a:hover { color: var(--rose-lt); border-color: var(--rose-lt); }
+/* the hit area grows on an overlay rather than on padding, which would
+   push the underline away from the word */
+@media (pointer: coarse) {
+  .foot__by a { position: relative; }
+  .foot__by a::after { content: ''; position: absolute; inset: -1rem -.5rem; }
+}
+
 .socs { display: flex; gap: 1.4rem; }
 .socs a { color: var(--on-dark-70); transition: color 380ms var(--ease); }
 .socs a:hover { color: var(--pink); }

@@ -127,6 +127,22 @@
     else a.remove();
   });
 
+  /* ================= build credit ================= */
+  var cr = CFG.credit || {};
+  $$('[data-credit]').forEach(function (a) {
+    var row = a.closest('.foot__by');
+    if (!has(cr.name)) { (row || a).remove(); return; }
+    a.textContent = cr.name.trim();
+    if (has(cr.url)) { a.href = cr.url.trim(); a.target = '_blank'; a.rel = 'noopener'; }
+    else {
+      // nowhere to point yet: keep the credit, lose the link that would
+      // otherwise jump to the top of the page
+      var s = document.createElement('span');
+      s.textContent = a.textContent;
+      a.replaceWith(s);
+    }
+  });
+
   /* ================= social icons ================= */
   var ICONS = {
     instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" stroke="none"/></svg>',
