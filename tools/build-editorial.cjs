@@ -255,6 +255,45 @@ async function emit(pipe, name, widths, q) {
       .png({ compressionLevel: 9, palette: true }).toFile(path.join(OUT, 'logo-mark.png'));
     console.log('logo-mark'.padEnd(20), fm.width + 'x' + fm.height, 'ratio ' + (fm.width / fm.height).toFixed(3));
   }
+  /* ============ DRINKS TILE =====================================
+     The drink photography is shot as posters — flat saturated grounds with
+     cartoon fruit — which is a different language from everything else
+     here. Rather than grade that away, the crop is pulled in tight enough
+     that the cup fills the frame, and what is left of the poster falls off
+     to the page's own black. The cup carries the shop's logo, so the tile
+     still reads as theirs. */
+  {
+    const SRC = RAW + '/drink-guava-splash.png';
+    const m = await sharp(SRC).metadata();
+    const cw = Math.round(m.width * 0.60), chh = Math.round(cw * 5 / 4);
+    const box = {
+      left: Math.max(0, Math.min(m.width - cw, Math.round(m.width * 0.5 - cw / 2))),
+      top:  Math.max(0, Math.min(m.height - chh, Math.round(m.height * 0.56 - chh / 2))),
+      width: cw, height: chh
+    };
+    const { data, info } = await sharp(SRC).extract(box).raw().toBuffer({ resolveWithObject: true });
+    const w = info.width, h = info.height, cn = info.channels, n = w * h;
+    const out = Buffer.alloc(n * 3);
+    const sm = (a, b, x) => { const v = Math.max(0, Math.min(1, (x - a) / (b - a))); return v * v * (3 - 2 * v); };
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const i = y * w + x, p = i * cn, fx = x / w, fy = y / h;
+      const d = Math.sqrt(((fx - 0.5) / 0.34) ** 2 + ((fy - 0.52) / 0.46) ** 2);
+      const keep = 1 - sm(0.92, 1.45, d);
+      let r = data[p], g = data[p + 1], b = data[p + 2];
+      const avg = (r + g + b) / 3, s = 0.40 + 0.55 * keep, lift = 0.10 + 0.90 * keep;
+      r = avg + (r - avg) * s; g = avg + (g - avg) * s; b = avg + (b - avg) * s;
+      out[i * 3]     = Math.max(0, Math.min(255, Math.round(9 + (r - 9) * lift)));
+      out[i * 3 + 1] = Math.max(0, Math.min(255, Math.round(9 + (g - 9) * lift)));
+      out[i * 3 + 2] = Math.max(0, Math.min(255, Math.round(9 + (b - 9) * lift)));
+    }
+    const base = await sharp(out, { raw: { width: w, height: h, channels: 3 } }).png().toBuffer();
+    for (const tw of [800, 540]) {
+      await sharp(base).resize({ width: tw, height: Math.round(tw * 5 / 4), fit: 'cover' })
+        .webp({ quality: 80, effort: 6 }).toFile(path.join(OUT, 'ed-t-drinks-' + tw + '.webp'));
+    }
+    console.log('ed-t-drinks'.padEnd(20), w + 'x' + h, '4:5');
+  }
+
   /* ============ MENU TILES — 4:5 portrait ======================== */
   const TILES = [
     ['ed-t-loadedcup', 'ed-p-loadedcup-1200.webp'],
@@ -267,7 +306,9 @@ async function emit(pipe, name, widths, q) {
   // 'attention' reads the shakes plate off-centre and drags the pink bokeh
   // prop into the corner, so that tile is framed by hand on the middle glass.
   const TILE_CROP = {
-    'ed-t-acai':   [0.02, 0.03, 0.98, 0.70],
+    // the old top-70% crop cut the bowl off and filled the tile with the
+    // floral wall behind it, so the Açaí tile did not show any açaí
+    'ed-t-acai':   [0.20, 0.18, 1.00, 0.88],
     'ed-t-shakes': [0.24, 0.00, 0.78, 1.00]
   };
   for (const row of TILES) {
