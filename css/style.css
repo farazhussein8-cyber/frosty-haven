@@ -457,19 +457,33 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   gap: clamp(1.1rem, 2.4vw, 1.6rem);
 }
 
-/* follow row: quiet, sitting in the space under the buttons */
+/* Follow row. It is the only route off the page to Instagram and TikTok, so
+   it is set to be found at a glance rather than discovered — brighter than
+   the footer's copy, on its own line, with the icons far enough apart to
+   read as two destinations instead of one clump. Restraint comes from the
+   scale and the spacing, not from dimming it. */
 .hero__social {
-  margin-top: clamp(2rem, 4vw, 2.8rem);
-  display: flex; align-items: center; gap: 1.1rem;
+  /* pulled up off the button, which on a phone also lifts it clear of the
+     brighter part of the photograph */
+  margin-top: clamp(1.4rem, 2.6vw, 1.9rem);
+  display: flex; align-items: center; gap: clamp(1.2rem, 2vw, 1.7rem);
 }
 .hero__social > span {
-  font-size: var(--micro); font-weight: 500;
-  letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(250,246,241,.45);
+  font-size: .78rem; font-weight: 500;
+  letter-spacing: .26em; text-transform: uppercase;
+  color: rgba(250,246,241,.84);
 }
-.hero__social .socs { gap: 1.1rem; }
-.hero__social .socs a { color: rgba(250,246,241,.62); }
-.hero__social .socs a:hover { color: var(--rose-lt); }
+.hero__social .socs { gap: clamp(1.6rem, 2.8vw, 2.2rem); }
+.hero__social .socs svg { width: 25px; height: 25px; }
+.hero__social .socs a {
+  color: var(--white);
+  transition: color 320ms var(--ease), transform 320ms var(--ease);
+}
+.hero__social .socs a:hover { color: var(--rose-lt); transform: translateY(-2px); }
+.hero__social .socs a:active { transform: translateY(0) scale(.94); }
+.hero__social .socs a:focus-visible {
+  outline: 2px solid var(--rose-lt); outline-offset: 7px; border-radius: 5px;
+}
 
 /* ---------------------------------------------------------------- */
 /*  8. MARQUEE                                                       */
