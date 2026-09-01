@@ -221,7 +221,10 @@ async function emit(pipe, name, widths, q) {
     // landscape ratio would cut the cups off at the base.
     ['ed-p-shakes',    RAW + '/milkshakes-trio-splash.png', { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.00, 0.085, 1.00, 0.925], [1300, 900, 620]],
     ['ed-p-lava',      RAW + '/lava-cake.webp',         { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.18, 0.29, 0.82, 0.97], [1200, 840, 560]],
-    ['ed-p-twist',     RAW + '/soft-serve-twist.webp',  { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.29, 0.30, 0.83, 0.99], [1100, 760, 520]],
+    // Shot 4:5 on the pink set like the açaí bowl, so it takes the same grade
+    // and needs no crop — the old entry was cropping in on a cone held in
+    // frame, which this one is not.
+    ['ed-p-twist',     RAW + '/gallery/soft-serve-twist-cone.png', { sat: 0.78, bri: 1.06, boost: 1.0, satCut: 0.40 }, [0.00, 0.00, 1.00, 1.00], [1100, 760, 520]],
     ['ed-marble',      DL + '/frosty-haven-dessert-cream-marble-table.png',   { sat: 0.86, bri: 1.05, boost: 0.9 }, [0.17, 0.15, 0.89, 1.00], [1200, 840, 560]],
     ['ed-shop',        DL + '/frosty-haven-option-2-premium-stone-counter.png', { sat: 0.78, bri: 1.08, boost: 1.0 }, [0, 0, 1, 1], [1300, 900, 640]],
   ];
