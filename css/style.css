@@ -513,63 +513,6 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
 @keyframes marq { to { transform: translateX(-100%); } }
 
 /* ---------------------------------------------------------------- */
-/*  8b. CATEGORY TILES                                               */
-/* ---------------------------------------------------------------- */
-/* Six ways into the menu, straight under the hero. Kept on the dark
-   ground so the run from hero to marquee to here reads as one block
-   before the page opens out into cream. */
-.cats {
-  background: var(--ink);
-  padding: clamp(2.6rem, 5vw, 4rem) 0 clamp(3.2rem, 6vw, 5rem);
-}
-.cats__lab { color: var(--on-dark-45); margin: 0 0 clamp(1.4rem, 2.6vw, 2rem); }
-.cats__grid {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(.7rem, 1.4vw, 1.2rem);
-}
-.cat a {
-  display: block; position: relative;
-  text-decoration: none; color: var(--on-dark);
-}
-.cat__media {
-  display: block; position: relative;
-  aspect-ratio: 4 / 5; overflow: hidden;
-  background: #151515;
-}
-/* These six shots come from six different sets — a pink studio, a black
-   table, a white plate — so a light, even hand pulls them together on the
-   dark ground. Hover returns the tile to its own colour. */
-.cat__media img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: saturate(.88) brightness(.9);
-  transition: transform 900ms var(--ease), filter 520ms var(--ease);
-}
-.cat a:hover .cat__media img { filter: none; }
-/* the name sits on the photograph, so it gets its own ground rather than
-   relying on whatever happens to be behind it in that particular shot */
-.cat__media::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg,
-    rgba(10,10,10,0) 38%, rgba(10,10,10,.34) 62%, rgba(10,10,10,.82) 100%);
-}
-.cat__name {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
-  padding: clamp(.9rem, 1.7vw, 1.4rem) clamp(1rem, 1.8vw, 1.5rem);
-  font-family: var(--serif);
-  font-size: clamp(1.15rem, 1.9vw, 1.75rem);
-  letter-spacing: .005em; line-height: 1;
-  transition: color 420ms var(--ease);
-}
-.cat a:hover .cat__media img { transform: scale(1.055); }
-.cat a:hover .cat__name { color: var(--rose-lt); }
-.cat a:focus-visible { outline: 2px solid var(--rose-lt); outline-offset: 4px; }
-
-@media (max-width: 700px) {
-  .cats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-/* ---------------------------------------------------------------- */
 /*  9. INTRO — typography is the layout                              */
 /* ---------------------------------------------------------------- */
 .intro { padding: var(--band) 0 calc(var(--band) * .85); position: relative; }
