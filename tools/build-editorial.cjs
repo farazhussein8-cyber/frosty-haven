@@ -209,12 +209,11 @@ async function emit(pipe, name, widths, q) {
     ['ed-p-loadedcup', RAW + '/loaded-cup-hero.webp',   { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.26, 0.27, 0.74, 0.99], [1200, 840, 560]],
     ['ed-p-pista',     RAW + '/flurr-pista.png',        { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.24, 0.225, 0.76, 0.87], [1200, 840, 560]],
     ['ed-p-acai',      RAW + '/featured-acai-bowl.png', { sat: 0.88, bri: 1.06, boost: 0.75, satCut: 0.30 }, [0.00, 0.00, 1.00, 1.00], [1100, 760, 520]],
-    // The shakes are shot on a dark set, so the blush key has nothing to work
-    // on: it looks for pale low-saturation ground and there is none. Grading
-    // toward blush anyway would only wash the chocolate and caramel out, so
-    // this one keeps its own light and is only pulled back off the AI
-    // oversaturation and lifted off pure black.
-    ['ed-p-shakes',    RAW + '/milkshakes-trio-noir.png', { sat: 0.92, bri: 1.0, boost: 0, lift: 14 }, [0.030, 0.075, 0.970, 1.00], [1300, 900, 620]],
+    // Back on the pink set, so this takes the same blush grade as the rest of
+    // the plates. The crop only trims dead space above the straws and below
+    // the ice — the shot is composed square and cropping it to the old
+    // landscape ratio would cut the cups off at the base.
+    ['ed-p-shakes',    RAW + '/milkshakes-trio-splash.png', { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.00, 0.085, 1.00, 0.925], [1300, 900, 620]],
     ['ed-p-lava',      RAW + '/lava-cake.webp',         { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.18, 0.29, 0.82, 0.97], [1200, 840, 560]],
     ['ed-p-twist',     RAW + '/soft-serve-twist.webp',  { sat: 0.62, bri: 1.16, boost: 1.5, satCut: 0.55 }, [0.29, 0.30, 0.83, 0.99], [1100, 760, 520]],
     ['ed-marble',      DL + '/frosty-haven-dessert-cream-marble-table.png',   { sat: 0.86, bri: 1.05, boost: 0.9 }, [0.17, 0.15, 0.89, 1.00], [1200, 840, 560]],
@@ -264,13 +263,10 @@ async function emit(pipe, name, widths, q) {
     ['ed-t-lava',      'ed-p-lava-1200.webp'],
     ['ed-t-twist',     'ed-p-twist-1100.webp'],
   ];
-  // 'attention' reads the shakes plate off-centre and drags the pink bokeh
-  // prop into the corner, so that tile is framed by hand on the middle glass.
   const TILE_CROP = {
     // the old top-70% crop cut the bowl off and filled the tile with the
     // floral wall behind it, so the Açaí tile did not show any açaí
     'ed-t-acai':   [0.20, 0.18, 1.00, 0.88],
-    'ed-t-shakes': [0.24, 0.00, 0.78, 1.00]
   };
   for (const row of TILES) {
     for (const w of [800, 540]) {
