@@ -314,6 +314,15 @@
     var twin = set.cloneNode(true);
     twin.setAttribute('aria-hidden', 'true');
     marq.appendChild(twin);
+
+    // The keyframe travels the set's own width, and that width depends on the
+    // viewport — so one fixed duration means the band crawls on a phone and
+    // hurries on a desktop. Deriving it from the measured width holds the
+    // drift at the same speed everywhere.
+    var DRIFT = 13; // px per second
+    var secs = (set.scrollWidth / DRIFT).toFixed(1) + 's';
+    set.style.animationDuration = secs;
+    twin.style.animationDuration = secs;
   }
 
   /* ================= reviews ================= */

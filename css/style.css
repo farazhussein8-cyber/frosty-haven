@@ -488,24 +488,28 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
 /* ---------------------------------------------------------------- */
 /*  8. MARQUEE                                                       */
 /* ---------------------------------------------------------------- */
+/* A quiet band, not a second headline. It ran at 27px in full cream, which
+   competed with the hero it sits directly under; at this size and weight it
+   reads as trim. The dots stay full pink — they are the only colour in the
+   band and what keeps it from looking like a caption. */
 .marq {
-  background: var(--ink); color: var(--on-dark);
-  padding: clamp(.9rem, 1.7vw, 1.35rem) 0;
+  background: var(--ink); color: rgba(250,246,241,.46);
+  padding: clamp(.8rem, 1.4vw, 1.1rem) 0;
   overflow: hidden;
   display: flex; user-select: none;
 }
 .marq__set {
   display: flex; align-items: center; flex: 0 0 auto;
-  gap: clamp(1.6rem, 3vw, 3rem);
-  padding-right: clamp(1.6rem, 3vw, 3rem);
-  animation: marq 78s linear infinite;
+  gap: clamp(1.5rem, 2.7vw, 2.6rem);
+  padding-right: clamp(1.5rem, 2.7vw, 2.6rem);
+  animation: marq 150s linear infinite;
 }
 .marq span {
   font-family: var(--serif);
-  font-size: clamp(1.05rem, 1.9vw, 1.7rem);
-  letter-spacing: .01em; white-space: nowrap;
+  font-size: clamp(.92rem, 1.25vw, 1.15rem);
+  letter-spacing: .045em; white-space: nowrap;
 }
-.marq i { width: 5px; height: 5px; border-radius: 50%; background: var(--pink); flex: 0 0 auto; }
+.marq i { width: 4px; height: 4px; border-radius: 50%; background: var(--pink); flex: 0 0 auto; }
 @keyframes marq { to { transform: translateX(-100%); } }
 
 /* ---------------------------------------------------------------- */
