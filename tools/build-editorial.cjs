@@ -8,7 +8,9 @@ const sharp = require('C:/Users/GGPC/Downloads/the-fade-creators/node_modules/sh
 const path = require('path'), fs = require('fs');
 
 const DL  = 'C:/Users/GGPC/Downloads';
-const MOCK = 'C:/Users/GGPC/OneDrive/Pictures/Screenshots/Screenshot 2026-08-30 115549.png';
+// Copied out of Screenshots deliberately: the approved comp is the source of
+// truth for the hero and screenshot filenames get reused and overwritten.
+const MOCK = 'C:/Users/GGPC/OneDrive/Desktop/frosty-haven-website/images/hero-comp-crave.png';
 const RAW = 'C:/Users/GGPC/OneDrive/Desktop/frosty-haven-website/images';
 const OUT = path.join(__dirname, '..', 'images');
 fs.mkdirSync(OUT, { recursive: true });

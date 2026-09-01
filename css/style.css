@@ -406,10 +406,14 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   font-family: var(--serif); font-weight: 400;
   font-size: clamp(2.7rem, 5.1vw, 5rem);
   line-height: 1.06; letter-spacing: -.02em;
-  color: var(--blush);
+  /* the comp sets the headline in a warm ivory, a shade off the blush the
+     rest of the site uses on dark — worth keeping, it stops the type from
+     going pink against the berries behind it */
+  color: #EAD6C0;
   margin: 0;
 }
-.hero__title span { display: block; white-space: nowrap; }
+.hero__title > span { display: block; white-space: nowrap; }
+.hero__title .dot { font-style: normal; color: var(--rose); }
 
 .hero__sub {
   margin: clamp(1.5rem, 3vw, 2.2rem) 0 0;
@@ -417,6 +421,26 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   color: rgba(250,246,241,.88);
   font-size: clamp(.98rem, .94rem + .28vw, 1.12rem);
   line-height: 1.62;
+}
+
+/* the flavour run under the headline. A list, because that is what it is,
+   with the separators drawn rather than typed so they never wrap onto a
+   line of their own */
+.hero__flav {
+  margin: clamp(1.5rem, 3vw, 2.2rem) 0 0;
+  padding: 0; list-style: none;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .5rem 1.15rem;
+  font-size: clamp(.98rem, .94rem + .28vw, 1.12rem);
+  color: rgba(255,255,255,.92);
+}
+/* the separator leads its own word rather than trailing the one before it:
+   on a narrow phone the run wraps, and a trailing dot would be left
+   dangling at the end of a line looking like a typo */
+.hero__flav li { display: flex; align-items: center; gap: 1.15rem; }
+.hero__flav li + li::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--rose); flex: none;
 }
 
 .hero__acts {
@@ -1023,6 +1047,8 @@ body.ready .h-plate {
   .hero__eyebrow { margin-bottom: 1.1rem; }
   .hero__title { font-size: clamp(2.35rem, 10.6vw, 3.5rem); line-height: 1.04; }
   .hero__sub { margin-top: 1.1rem; max-width: 30ch; font-size: .95rem; }
+  .hero__flav { margin-top: 1.1rem; font-size: .95rem; gap: .45rem .85rem; }
+  .hero__flav li { gap: .85rem; }
   .hero__acts { margin-top: 1.6rem; gap: 1.1rem; }
   /* on a phone the photograph sits behind the copy, shifted so the
      desserts fill the lower half rather than hiding behind the text */
@@ -1109,6 +1135,7 @@ body.ready .h-plate {
   .nav__links a, .foot__nav a, .mjump a { padding-block: .6rem; }
   .socs a { padding: .8rem; margin: -.8rem; }
   .btn--fill, .btn--line { padding-block: 1.5em; }
+  .btn--blush, .btn--edge { padding-block: 1.45em; }
   .btn--text { padding-top: 1.35em; padding-bottom: 1.25em; }
   .rbtn { width: 52px; height: 52px; }
 }
