@@ -404,8 +404,12 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
 
 .hero__title {
   font-family: var(--serif); font-weight: 400;
-  font-size: clamp(2.7rem, 5.1vw, 5rem);
-  line-height: 1.06; letter-spacing: -.02em;
+  /* Sized off the comp, where the headline runs about 6.8% of the frame
+     width per cap — a little over twice what it was. It is the focal point
+     of the left half, so it is measured against the viewport rather than
+     set in rem, and capped before it can reach the desserts. */
+  font-size: clamp(3.2rem, 10.2vw, 11rem);
+  line-height: 1.02; letter-spacing: -.025em;
   /* the comp sets the headline in a warm ivory, a shade off the blush the
      rest of the site uses on dark — worth keeping, it stops the type from
      going pink against the berries behind it */
@@ -431,6 +435,10 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   padding: 0; list-style: none;
   display: flex; flex-wrap: wrap; align-items: center;
   gap: .5rem 1.15rem;
+  /* held short of the desserts, which start around 40vw once the background
+     is covered — six categories would otherwise fill the copy column and
+     run the last of them over the photograph on a narrow desktop */
+  max-width: min(100%, 38vw);
   font-size: clamp(.98rem, .94rem + .28vw, 1.12rem);
   color: rgba(255,255,255,.92);
 }
@@ -1045,9 +1053,11 @@ body.ready .h-plate {
   .hero__inner { grid-template-columns: 1fr; gap: 0; }
   .hero__copy { max-width: 21ch; }
   .hero__eyebrow { margin-bottom: 1.1rem; }
-  .hero__title { font-size: clamp(2.35rem, 10.6vw, 3.5rem); line-height: 1.04; }
+  .hero__title { font-size: clamp(3rem, 18vw, 5.5rem); line-height: 1.0; }
   .hero__sub { margin-top: 1.1rem; max-width: 30ch; font-size: .95rem; }
-  .hero__flav { margin-top: 1.1rem; font-size: .95rem; gap: .45rem .85rem; }
+  /* the photograph moves below the copy here, so the run gets the full
+     column back — the desktop cap exists only to keep it off the desserts */
+  .hero__flav { margin-top: 1.1rem; font-size: .95rem; gap: .45rem .85rem; max-width: none; }
   .hero__flav li { gap: .85rem; }
   .hero__acts { margin-top: 1.6rem; gap: 1.1rem; }
   /* on a phone the photograph sits behind the copy, shifted so the
@@ -1057,11 +1067,14 @@ body.ready .h-plate {
      where the box is less tall and less of the group gets cropped away */
   .hero__bg { inset: auto -4% -4% -4%; width: auto; height: 68%; }
   .hero__bg img { object-position: 62% 62%; }
+  /* the dark band reaches further down than it used to: the taller headline
+     pushes the Follow row to about 59% of the hero, which the old ramp had
+     already opened up to the cream behind it */
   .hero::before {
     background:
       linear-gradient(180deg,
-        var(--hero-bg) 0%, var(--hero-bg) 30%, rgba(10,10,10,.86) 40%,
-        rgba(10,10,10,.42) 52%, rgba(10,10,10,.10) 64%, rgba(10,10,10,.34) 100%);
+        var(--hero-bg) 0%, var(--hero-bg) 30%, rgba(10,10,10,.90) 44%,
+        rgba(10,10,10,.68) 58%, rgba(10,10,10,.14) 70%, rgba(10,10,10,.34) 100%);
   }
 }
 
