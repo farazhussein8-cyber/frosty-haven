@@ -126,19 +126,18 @@ async function emit(pipe, name, widths, q) {
       .png().toBuffer();
     await emit(sharp(base), 'ed-hero-side-l', [620, 420, 300], 84);
   }
-  /* ============ DARK — the same line-up, noir ==================== */
-  const noirSrc = DL + '/frosty-haven-lineup-premium-noir.png';
-  const nm = await sharp(noirSrc).metadata();
-  // The band's backdrop is its own shot now. ed-noir-cut below still comes
-  // off the old line-up, which is a cut-out on the order section and would
-  // not survive being lifted out of a counter-top scene.
+  /* ============ MADE TO CRAVE BACKDROP =========================== */
   await emit(sharp(RAW + '/gallery/lineup-burgundy.png'), 'ed-crave', [1672, 1200, 860], 80);
+
+  /* ============ ORDER BAND BACKDROP ==============================
+     The same counter shot as the Made to Crave band, framed closer. Running
+     the identical photograph twice on one page reads as a mistake; pulling
+     in on the middle of the line-up gives the two bands different subjects
+     out of one setup. */
   {
-    const c = box(nm, 0.28, 0.08, 0.74, 1);
-    const base = await sharp(noirSrc).extract(c).modulate({ brightness: 0.86 }).ensureAlpha()
-      .composite([{ input: edgeMask(c.width, c.height, 0.30, 0.28, 0.40), blend: 'dest-in' }])
-      .png().toBuffer();
-    await emit(sharp(base), 'ed-noir-cut', [1000, 720, 520], 84);
+    const src = RAW + '/gallery/lineup-burgundy.png';
+    const m = await sharp(src).metadata();
+    await emit(sharp(src).extract(box(m, 0.15, 0.10, 0.85, 1.00)), 'ed-order-bg', [1160, 860, 620], 80);
   }
 
   /* ============ HERO PHOTOGRAPH ==================================

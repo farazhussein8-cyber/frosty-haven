@@ -782,6 +782,7 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
 .order {
   position: relative; background: var(--ink); color: var(--on-dark);
   padding: calc(var(--band) * 1.05) 0 0;
+  min-height: 82svh; display: flex; flex-direction: column; justify-content: center;
   overflow: hidden; isolation: isolate;
 }
 .order::before {
@@ -790,22 +791,34 @@ body.ready .hero__bg img { animation: heroBreathe 12s ease-in-out 1.2s infinite;
   pointer-events: none;
 }
 .order__type {
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
   font-family: var(--serif);
   font-size: clamp(3.6rem, 16vw, 16rem); line-height: .8;
   letter-spacing: -.035em; text-align: center;
 }
 .order__type span { display: block; }
-.order__shot {
-  position: relative; z-index: 2; left: 2%;
-  width: min(52%, 580px);
-  margin: -13% auto -1%;
-  filter: drop-shadow(0 40px 60px rgba(0,0,0,.55));
+/* the line-up now runs full bleed behind the band instead of floating in
+   it as a cut-out, so the type needs its own ground: the photograph sits
+   at half strength over the ink and a scrim closes the middle where the
+   headline lands */
+.order__bg {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%;
+  opacity: .5;
+}
+.order::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(17,17,17,.86) 0%, rgba(17,17,17,.52) 30%,
+    rgba(17,17,17,.5) 62%, rgba(17,17,17,.9) 100%);
 }
 .order__acts {
   position: relative; z-index: 3;
   display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
   gap: clamp(1rem, 2.4vw, 2.2rem);
+  /* the cut-out used to hold the buttons off the headline; without it they
+     need their own space */
+  margin-top: clamp(1.8rem, 4vw, 3.4rem);
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
@@ -1136,7 +1149,7 @@ body.ready .h-plate {
   .crave { height: 96svh; }
   .crave__type span:nth-child(2) { padding-left: 8%; }
 
-  .order__shot { width: 88%; left: 0; margin: -20% auto -3%; }
+  .order { min-height: 74svh; }
 }
 
 @media (max-width: 620px) {
