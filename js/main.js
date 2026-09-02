@@ -27,72 +27,43 @@
       id: 'loaded-cups', label: 'Loaded Cups', img: 'ed-t-loadedcup',
       alt: 'The Loaded Cup — soft serve dipped in chocolate with churro, banana and strawberry',
       note: 'Dipped, stacked and finished in front of you.',
-      items: [
-        { name: 'The Loaded Cup', desc: 'Soft serve dipped in chocolate, stacked with a churro, fresh banana and strawberry.', price: 'S · M · L' }
-      ]
+      items: []
     },
     {
       id: 'ice-cream', label: 'Ice Cream', img: 'ed-t-twist',
       alt: 'A two-flavour soft serve twist on a crisp waffle cone',
       note: 'One machine, swirled to order, never pre-scooped.',
-      items: [
-        { name: 'Soft Serve Twist', desc: 'Two flavours swirled together, piled high on a crisp waffle cone.', price: 'S · M · L' },
-        { name: 'Biscoff Flurr', desc: 'Soft serve swirled with Biscoff crumble and a warm caramel drizzle.' },
-        { name: 'Nutella Flurr', desc: 'Swirled with Nutella and a generous crumble of chocolate cookie.' },
-        { name: 'Bueno Flurr', desc: 'Loaded with crushed Bueno, granola and a caramel drizzle.' },
-        { name: 'Pista Flurr', desc: 'Pistachio soft serve, swirled and showered in crushed pistachio.' },
-        { name: 'Custom Flurr', desc: 'Vanilla soft serve with a sauce and topping of your choice.' }
-      ]
+      items: []
     },
     {
       id: 'bowls', label: 'Bowls', img: 'ed-t-acai',
       alt: 'Açaí bowl with granola, banana and fresh strawberry',
       note: 'Blended thick. The one people compare to Brazil.',
-      items: [
-        { name: 'Açaí Bowl', desc: 'Açaí blended smooth, swirled and piled high with granola, banana and fresh strawberry.', price: 'S · M · L' }
-      ]
+      items: []
     },
     {
       id: 'shakes', label: 'Shakes', img: 'ed-t-shakes',
       alt: 'Three thick Frosty Haven milkshakes topped with cream and sauce',
       note: 'Spoon-thick. Actually thick, not marketing thick.',
-      items: [
-        { name: 'Thick Milkshake — Strawberry', desc: 'Whipped cream, berry drizzle.', price: '$9' },
-        { name: 'Thick Milkshake — Chocolate', desc: 'Whipped cream, chocolate drizzle.', price: '$9' },
-        { name: 'Thick Milkshake — Caramel', desc: 'Whipped cream, caramel drizzle.', price: '$9' },
-        { name: 'Protein Shakes', desc: 'All the flavour, built for your fitness goals. Ask in store.' }
-      ]
+      items: []
     },
     {
       id: 'cakes', label: 'Cakes & Treats', img: 'ed-t-lava',
       alt: 'Molten lava cake topped with ice cream and pistachio sauce',
       note: 'Warm, cold, and completely unreasonable.',
-      items: [
-        { name: 'Lava Cake', desc: 'Molten centre, ice cream on top, your choice of sauce — pistachio, Biscoff, Nutella, Bueno or chocolate.' },
-        { name: 'Frosty Cheesecakes', desc: 'Rich, chilled cheesecake with a Frosty Haven twist.' },
-        { name: 'Loaded Cookies', desc: 'Warm, stacked and piled high with toppings.' },
-        { name: 'Loaded Brownies', desc: 'Fudgy brownies buried under frosty toppings.' }
-      ]
+      items: []
     },
     {
       id: 'specials', label: 'Specials', img: 'ed-t-pista',
       alt: 'A loaded pistachio dessert with soft serve and crushed pistachio',
       note: 'The board changes. Ask what just landed.',
-      items: [
-        { name: 'Frosty Nachos', desc: 'A must-try — our over-the-top dessert nachos.' },
-        { name: 'Croffles', desc: 'Crunchy croissant-waffle, Biscoff or pistachio. Ask in store.' }
-      ]
+      items: []
     },
     {
       id: 'drinks', label: 'Drinks', img: 'ed-t-shakes',
       alt: 'Cold Frosty Haven drinks lined up on the counter',
       note: 'Cold, bright and faintly ridiculous.',
-      items: [
-        { name: 'Blue Lagoon', desc: 'A tropical blue splash bursting with sweet, refreshing flavour.' },
-        { name: 'Guava Splash', desc: 'Juicy guava soda with a bright, fruity fizz.' },
-        { name: 'Melon Zest', desc: 'Crisp, chilled melon soda with a light citrus twist.' },
-        { name: 'Add boba', desc: 'Blueberry · Green Apple · Lychee', price: '+$1' }
-      ]
+      items: []
     }
   ];
 
@@ -401,14 +372,23 @@
   /* ================= menu page ================= */
   var mjump = $('#mjump'), mbody = $('#mbody');
   if (mjump && mbody) {
-    mjump.innerHTML = MENU.map(function (cat) {
+    /* a category with nothing in it would render as a heading, a note and a
+       photograph above an empty column, and the jump bar would point at it.
+       They come back on their own as items are added. */
+    var LIVE = MENU.filter(function (cat) {
+      return Array.isArray(cat.items) && cat.items.length;
+    });
+
+    if (!LIVE.length) { mjump.closest('.mjump').remove(); }
+
+    mjump.innerHTML = LIVE.map(function (cat) {
       return '<a href="#cat-' + cat.id + '">' + esc(cat.label) + '</a>';
     }).join('');
 
-    mbody.innerHTML = MENU.map(function (cat, i) {
+    mbody.innerHTML = LIVE.map(function (cat, i) {
       return '<section class="mcat" id="cat-' + cat.id + '"><div class="wrap mcat__grid">' +
         '<div class="mcat__side">' +
-          '<p class="lab">' + String(i + 1).padStart(2, '0') + ' / ' + String(MENU.length).padStart(2, '0') + '</p>' +
+          '<p class="lab">' + String(i + 1).padStart(2, '0') + ' / ' + String(LIVE.length).padStart(2, '0') + '</p>' +
           '<h2 class="dsp">' + esc(cat.label) + '</h2>' +
           '<p class="lede" style="font-size:1rem">' + esc(cat.note) + '</p>' +
           '<div data-rv="img"><img src="images/' + cat.img + '-540.webp" srcset="images/' + cat.img +
